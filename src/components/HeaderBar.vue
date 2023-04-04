@@ -1,15 +1,17 @@
 <template>
     <div class="header-wrapper radious-and-shadow">
-        <div> 
-            <h3 class="welcome">Welcome,</h3>
-            <input class="remove-default user-name" type="text" :placeholder="userPlaceHolder" >
+        <div class="header-content">
+            <div> 
+                <h3 class="welcome">Welcome,</h3>
+                <input class="remove-default user-name" type="text" :placeholder="userPlaceHolder" >
+            </div>
+            <nav>
+                <div class="button-holder radious-and-shadow">
+                    <router-link to="/" class="button radious-and-shadow">Home</router-link>
+                    <router-link to="/settings" class="button radious-and-shadow">Settings</router-link>
+                </div>            
+            </nav>
         </div>
-        <nav>
-            <div class="button-holder radious-and-shadow">
-                <router-link to="/" class="button radious-and-shadow">Home</router-link>
-                <router-link to="/settings" class="button radious-and-shadow">Settings</router-link>
-            </div>            
-        </nav>
     </div>
 </template>
 
@@ -34,14 +36,20 @@
 
 <style scoped>
 .header-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     margin: 0.5rem 1rem;
+    height: 4rem;
+    background-color: var(--grey);
+    padding: 0.4rem 3rem;
+    border-radius: 1.2rem;
+}
+.header-content{
+    flex: 1 1 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 4rem;
-    background-color: var(--grey);
-    padding: 0.4rem 1.5rem;
-    border-radius: 1.2rem;
 }
 .header-wrapper div, 
 .header-wrapper nav div{
@@ -55,6 +63,9 @@
 }
 .user-name{
     background-color: var(--grey);
-    max-width: 9rem;
+    max-width: 10rem;
+}
+nav{
+    padding: 0;
 }
 </style>

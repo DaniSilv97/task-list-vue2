@@ -63,3 +63,19 @@ body{
     border-radius: 0.35rem;
     box-shadow: 0.2rem 0.2rem 0.2rem var(--darkestGrey);
 }
+
+.home{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+   justify-content: center;
+}
+.main-wrapper{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--grey);
+    border-radius: 1.2rem;
+    width: 26rem;
+    padding: 1rem;
+    margin: 1rem;
+}
