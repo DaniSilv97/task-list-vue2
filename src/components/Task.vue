@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'Task',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

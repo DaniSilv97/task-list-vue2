@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'AddList',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

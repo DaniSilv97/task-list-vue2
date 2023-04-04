@@ -1,9 +1,28 @@
+:root{
+    --black: #080809;
+    --blue: #0087ff;
+    --hover:#00e1ff ;
+    --lightestGrey: #BFBDC1;
+    --lightGrey: #57565a;
+    --grey: #3d3d3f;
+    --darkGrey: #313133;
+    --darkestGrey:#1e1d1f;
+
+    --longTime: #eee;
+    --enoughTime: #00d8ff;
+    --shortTime: #0097ff;
+    --noTime: #0070ff;
+
+    --textColor: #e4e8ee;
+}
+
+*{
+    color: var(--textColor);
+}
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
 }
 
 nav {
@@ -12,9 +31,35 @@ nav {
 
 nav a {
     font-weight: bold;
-    color: #2c3e50;
 }
 
 nav a.router-link-exact-active {
-    color: #42b983;
+    color: var(--blue);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.remove-default{
+    appearance: none;
+    border: none;
+    outline: none;
+    cursor: initial;
+}
+
+.button-holder{
+    padding: 0.3rem;
+    background-color: var(--darkGrey);
+}
+.button{
+    padding: 0.5rem;
+    background-color: var(--lightGrey);
+    margin: 0rem 0.25rem;
+}
+
+.radious-and-shadow{
+    border-radius: 0.35rem;
+    box-shadow: 0.2rem 0.2rem 0.2rem var(--darkestGrey);
 }

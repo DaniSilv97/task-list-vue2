@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'ColorPicker',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

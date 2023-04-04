@@ -10,7 +10,9 @@
     components: {  }, 
     name: 'HomeView',
     data(){
-    
+      return{
+                
+      }
     },
     methods:{
     

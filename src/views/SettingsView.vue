@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'SettingsView',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

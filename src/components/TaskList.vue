@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'TaskList',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

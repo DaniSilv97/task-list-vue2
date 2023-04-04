@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'AddTask',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

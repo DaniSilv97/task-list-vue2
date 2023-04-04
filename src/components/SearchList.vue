@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'SearchList',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         

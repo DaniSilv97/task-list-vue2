@@ -10,7 +10,9 @@
         components: {  }, 
         name: 'SearchTask',
         data(){
-        
+            return{
+                
+            }
         },
         methods:{
         
