@@ -1,12 +1,12 @@
 <template>
     <div class="search-list">
-        <select class="list-search" v-model="selectedList">
+        <select class="list-search">
             <option value=""> Show all </option>
             <template v-for="list in allTaskLists">
                 <option :value="list.name">{{ list.name }}</option>
             </template>
         </select>
-        <button class="remove-default button" @click="sortLists" >Select List</button>
+        <button class="remove-default button">Select List</button>
     </div>
 </template>
 

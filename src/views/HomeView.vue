@@ -27,15 +27,10 @@ import TaskList from '@/components/TaskList.vue';
     data(){
       return{
         allTaskLists:[],
-        testTask: { id: 11, 
-                    name: `I'm a task List`, 
-                    isSelected: false, 
-                    tasks:[{  id: 33, 
-                              name: `I'm a task`,
-                              date: '2022-04-05'},
-                           {  id: 44, 
-                              name: `I'm a task`,
-                              date: '2022-04-05'}]},
+        testTask1: { id: 11, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
+        testTask2: { id: 12, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
+        testTask3: { id: 13, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
+        testTask4: { id: 14, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
       }
     },
     methods:{
@@ -45,12 +40,10 @@ import TaskList from '@/components/TaskList.vue';
     
     },
     mounted(){
-      this.allTaskLists.push(this.testTask)
-      this.allTaskLists.push(this.testTask)
-      this.allTaskLists.push(this.testTask)
-      this.allTaskLists.push(this.testTask)
-      this.allTaskLists.push(this.testTask)
-      this.allTaskLists.push(this.testTask)
+      this.allTaskLists.push(this.testTask1)
+      this.allTaskLists.push(this.testTask2)
+      this.allTaskLists.push(this.testTask3)
+      this.allTaskLists.push(this.testTask4)
     }
   }
 </script>
