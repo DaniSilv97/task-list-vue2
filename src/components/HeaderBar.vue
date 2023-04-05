@@ -1,15 +1,14 @@
 <template>
     <div class="header-wrapper radius-and-shadow">
-        <div class="header-content">
-            <div> 
-                <h3 class="welcome">Welcome,</h3>
-                <input class="remove-default user-name" type="text" :placeholder="userPlaceHolder" >
-            </div>
-            <nav>
-                <div class="button-holder radius-and-shadow">
-                    <router-link to="/" class="button">Home</router-link>
-                    <router-link to="/settings" class="button">Settings</router-link>
-                </div>            
+        <div class="welcome-user"> 
+            <h3 class="welcome">
+                Welcome, <input class="remove-default user-name" type="text" placeholder="Name Here" >
+            </h3>
+        </div>
+        <div class="nav-container button-holder radius-and-shadow">
+            <nav>                
+                <router-link to="/" class="button">Home</router-link>
+                <router-link to="/settings" class="button">Settings</router-link>
             </nav>
         </div>
     </div>
@@ -22,7 +21,7 @@
         name: 'HeaderBar',
         data(){
             return{
-                userPlaceHolder: ' Name Here'
+                
             }
         },
         methods:{
@@ -38,34 +37,30 @@
 .header-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     margin: 0.5rem 1rem;
     height: 4rem;
     background-color: var(--grey);
-    padding: 0.4rem 3rem;
+    padding: 0.4rem 1rem;
     border-radius: 1.2rem;
-}
-.header-content{
-    flex: 1 1 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.header-wrapper div, 
-.header-wrapper nav div{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.welcome, .user-name{
+}.welcome, .user-name{
     font-size: 1.4rem;
     font-weight: 700;
 }
 .user-name{
+    color: var(--lightestGrey);
     background-color: var(--grey);
     max-width: 10rem;
 }
+.user-name:focus{
+    color: var(--blue);
+    opacity: 0.7;
+}
+.nav-container{
+    padding: 0.3rem;
+}
 nav{
-    padding: 0;
+    padding: 0.6rem 0rem;
 }
 </style>
