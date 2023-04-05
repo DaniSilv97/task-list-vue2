@@ -4,7 +4,7 @@
             <div class="title-and-button">
                 <h3 class="list-title"> {{ thisList.name }}</h3>
                 <div class="button-holder radius-and-shadow">
-                    <button class="remove-default button">Delete</button>
+                    <button class="remove-default button" @click="deleteList">Delete</button>
                     <button class="remove-default button" @click="showHideTasks">{{ showTasks }}</button>
                 </div>
             </div>
@@ -35,6 +35,9 @@
         methods:{
             showHideTasks(){
                 this.$emit('showHideTasks', this.thisList)
+            },
+            deleteList(){
+                this.$emit('deleteList', this.thisList)
             }
         },
         computed:{

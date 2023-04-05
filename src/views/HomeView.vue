@@ -19,7 +19,7 @@
     <div v-show="allTaskLists.length" class="lists-container main-wrapper">
       <slide-y-up-transition group>
         <div v-for="list in allTaskLists" :key="list.id">
-          <TaskList :thisList="list" v-on:showHideTasks="showHideTasks($event)"></TaskList>
+          <TaskList :thisList="list" v-on="taskListEventHandlers"></TaskList>
         </div>
       </slide-y-up-transition>
     </div>
@@ -42,6 +42,10 @@
     data(){
       return{
         allTaskLists:[],
+        taskListEventHandlers : {
+          showHideTasks: this.showHideTasks,
+          deleteList: this.deleteList
+        }
       }
     },
     methods:{
@@ -63,6 +67,13 @@
           }
         })
       },
+      deleteList(list){
+        this.allTaskLists.forEach(element=>{
+          if(element.id === list.id){
+            this.allTaskLists.splice(this.allTaskLists.indexOf(element), 1)
+          }
+        })
+      }
     },
     computed:{
     
