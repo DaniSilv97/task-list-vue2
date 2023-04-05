@@ -76,6 +76,6 @@ body{
     background-color: var(--grey);
     border-radius: 1.2rem;
     width: 26rem;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     margin: 1rem;
 }
