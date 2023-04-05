@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-
     <!--// TODO { O }: Filter by list-->
     <div class="main-wrapper">
       <SearchList :allTaskLists="allTaskLists"></SearchList>
@@ -12,7 +11,6 @@
         <TaskList :thisList="list"></TaskList>
       </div>
     </div>
-    
   </div>
 </template>
 
