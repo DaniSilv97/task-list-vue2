@@ -6,7 +6,7 @@
         </div>
         <div class="button-holder actions radius-and-shadow">
             <div class="date"> {{ thisTask.date }} </div>
-            <button class="remove-default button"> Delete </button>
+            <button class="remove-default button" @click="deleteTask"> Delete </button>
         </div>
     </div>
 </template>
@@ -22,7 +22,9 @@
             }
         },
         methods:{
-        
+            deleteTask(){
+                this.$emit('deleteTask', this.thisTask.id)
+            }
         },
         computed:{
         

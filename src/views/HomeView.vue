@@ -45,7 +45,8 @@
         taskListEventHandlers : {
           showHideTasks: this.showHideTasks,
           deleteList: this.deleteList,
-          addNewTask: this.addNewTask
+          addNewTask: this.addNewTask,
+          deleteTask: this.deleteTask
         }
       }
     },
@@ -84,6 +85,16 @@
             element.tasks.push({id: this.todayAsId()+'22', name: eventData.name, date: eventData.date, done: false})
             this.saveToStorage()
           }
+        })
+      },
+      deleteTask(eventData){
+        this.allTaskLists.forEach(list=>{
+          list.tasks.forEach(task=>{
+            if(task.id === eventData.taskId){
+              list.tasks.splice(list.tasks.indexOf(task),1)
+              this.saveToStorage()
+            }
+          })
         })
       },
       saveToStorage(){
