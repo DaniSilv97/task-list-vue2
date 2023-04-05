@@ -6,7 +6,7 @@
         </div>
         <div class="button-holder actions radious-and-shadow">
             <div class="date"> {{ thisTask.date }} </div>
-            <button class="remove-default button radious-and-shadow"> Delete </button>
+            <button class="remove-default button"> Delete </button>
         </div>
     </div>
 </template>

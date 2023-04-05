@@ -6,7 +6,7 @@
                 <option :value="list.name">{{ list.name }}</option>
             </template>
         </select>
-        <button class="remove-default button radious-and-shadow" @click="sortLists" >Select List</button>
+        <button class="remove-default button" @click="sortLists" >Select List</button>
     </div>
 </template>
 

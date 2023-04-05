@@ -4,8 +4,8 @@
             <div class="title-and-button">
                 <h3 class="list-title"> {{ thisList.name }}</h3>
                 <div class="button-holder radious-and-shadow">
-                    <button class="remove-default button radious-and-shadow">Delete</button>
-                    <button class="remove-default button radious-and-shadow">More...</button>
+                    <button class="remove-default button">Delete</button>
+                    <button class="remove-default button">More...</button>
                 </div>
             </div>
             <div class="tasks-container radious-and-shadow">
@@ -55,7 +55,7 @@ import Task from './Task.vue';
         justify-content: space-between;
         align-items: center;
         padding: 0rem 0.5rem;
-        border-bottom: 2px dashed var(--darkestGrey);
+        border-bottom: 2px dashed var(--blue);
     }
     .list-title{
         flex: 1 1 0;

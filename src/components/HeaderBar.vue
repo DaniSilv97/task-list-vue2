@@ -7,8 +7,8 @@
             </div>
             <nav>
                 <div class="button-holder radious-and-shadow">
-                    <router-link to="/" class="button radious-and-shadow">Home</router-link>
-                    <router-link to="/settings" class="button radious-and-shadow">Settings</router-link>
+                    <router-link to="/" class="button">Home</router-link>
+                    <router-link to="/settings" class="button">Settings</router-link>
                 </div>            
             </nav>
         </div>

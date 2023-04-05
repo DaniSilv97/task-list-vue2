@@ -4,7 +4,7 @@
                 class="name remove-default"
                 placeholder="e.g. Do the dishes">
         <input type="date" class="date remove-default">
-        <button class="submit remove-default button radious-and-shadow">Add</button>        
+        <button class="submit remove-default button">Add</button>        
     </div>
 </template>
 
@@ -53,6 +53,5 @@
     }
     .submit{
         margin-left: 0rem;
-        padding-right: 0.7rem;
     }
 </style>
