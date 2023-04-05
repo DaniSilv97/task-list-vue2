@@ -12,7 +12,10 @@
 </template>
 
 <script>
+    import date from '../mixins/date'
+
     export default {
+        mixins: [ date ],
         props: [ 'thisList' ],
         components: {  }, 
         name: 'AddTask',
@@ -30,6 +33,10 @@
         computed:{
         
         },
+        created(){
+            this.newTaskDate = this.tommorowForHTML()
+
+        }
     }
 </script>
 
