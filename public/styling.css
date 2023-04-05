@@ -70,7 +70,7 @@ body{
     border: 0.05rem solid var(--blue);
 }
 .radius-and-shadow{
-    border-radius: 0.35rem;/*
+    border-radius: 0.45rem;/*
     box-shadow: 0.2rem 0.2rem 0.2rem var(--darkestGrey);*/
 }
 .main-wrapper{

@@ -2,8 +2,9 @@
     <div class="add-list">
         <input  type="text" 
                 class="list-name input-text remove-default"
-                placeholder="e.g. Chores">
-        <button class="remove-default button">Add List</button>
+                placeholder="e.g. Chores"
+                v-model="newTaskName">
+        <button class="remove-default button" @click="emitCreateList">Add List</button>
     </div>
 </template>
 
@@ -14,11 +15,13 @@
         name: 'AddList',
         data(){
             return{
-                
+                newTaskName:''
             }
         },
         methods:{
-        
+            emitCreateList(){
+                this.$emit('createNewList', this.newTaskName)
+            }
         },
         computed:{
         
@@ -35,5 +38,6 @@
     .list-name{
         flex: 1 1 0;
         padding: 0.4rem 0.5rem;
+        margin-right: 0.7rem;
     }
 </style>

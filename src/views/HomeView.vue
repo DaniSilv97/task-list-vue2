@@ -9,13 +9,13 @@
       </div>
       <div class="button-holder radius-and-shadow">
         <div class="add-list-container radius-and-shadow">
-          <AddList></AddList>
+          <AddList v-on:createNewList="checkForName($event)"></AddList>
         </div>
       </div>
     </div>
 
     <!--// TODO { O }: For list in all, create list-->
-    <div class="lists-container main-wrapper">
+    <div v-show="allTaskLists.length" class="lists-container main-wrapper">
       <div v-for="list in allTaskLists" :key="list.id">
         <TaskList :thisList="list"></TaskList>
       </div>
@@ -24,34 +24,39 @@
 </template>
 
 <script>
-import AddList from '@/components/AddList.vue';
-import SearchList from '@/components/SearchList.vue';
-import TaskList from '@/components/TaskList.vue';
+  import AddList from '@/components/AddList.vue';
+  import SearchList from '@/components/SearchList.vue';
+  import TaskList from '@/components/TaskList.vue';
+  import date from '../mixins/date'
 
   export default {
+    mixins: [ date ],
     props: [  ],
     components: { SearchList, TaskList, AddList }, 
     name: 'HomeView',
     data(){
       return{
         allTaskLists:[],
-        testTask1: { id: 11, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
-        testTask2: { id: 12, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
-        testTask3: { id: 13, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
-        testTask4: { id: 14, name: `I'm a task List`, isSelected: false, tasks:[{  id: 21, name: `I'm a task`,date: '2022-04-05'},{  id: 22, name: `I'm a task`,date: '2022-04-05'}]},
       }
     },
     methods:{
-    
+      checkForName(listName){
+        if(listName.replaceAll(' ', '')){
+          this.createNewList(listName)
+        } else{
+          alert('Fill the name')
+        }
+      },
+      createNewList(listName){
+        const newList = {id: this.todayAsId()+'11', name: listName, isSelected: false, tasks:[]}
+        this.allTaskLists.push(newList)
+      },
     },
     computed:{
     
     },
     mounted(){
-      this.allTaskLists.push(this.testTask1)
-      this.allTaskLists.push(this.testTask2)
-      this.allTaskLists.push(this.testTask3)
-      this.allTaskLists.push(this.testTask4)
+
     }
   }
 </script>
