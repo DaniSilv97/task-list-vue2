@@ -9,18 +9,17 @@
                 </div>
             </div>
             <div class="tasks-container radious-and-shadow">
-                <div v-for="task in thisList.tasks" :key="task.id">
-                    <p> {{ task.name }} </p>
-                </div>
+                <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task"></Task>
             </div>
         </div>  
     </div>
 </template>
 
 <script>
+    import Task from './Task.vue';
     export default {
         props: [ 'thisList' ],
-        components: {  }, 
+        components: { Task }, 
         name: 'TaskList',
         data(){
             return{
@@ -37,34 +36,34 @@
 </script>
 
 <style scoped>
-.task-list{
-    display: flex;
-    flex-direction: column;
-    background-color: var(--darkGrey);
-    margin-bottom: 1rem;
-}
-.list-container{
-    background-color: var(--grey);
-    margin: 0.5rem;
-}
-.title-and-button{
-    height: 3.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0rem 0.5rem;
-    border-bottom: 2px dashed var(--darkestGrey);
-}
-.list-title{
-    flex: 1 1 0;
-    padding-left: 1rem;
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-.tasks-container{
-    padding: 0.5rem;
-    margin: 0.5rem;
-    background-color: var(--darkGrey);
-}
-
+    .task-list{
+        width: 26rem;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--darkGrey);
+        margin: 0.8rem 0.35rem;
+    }
+    .list-container{
+        background-color: var(--grey);
+        margin: 0.5rem;
+    }
+    .title-and-button{
+        height: 3.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0rem 0.5rem;
+        border-bottom: 2px dashed var(--darkestGrey);
+    }
+    .list-title{
+        flex: 1 1 0;
+        padding-left: 1rem;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+    .tasks-container{
+        padding: 0.2rem 0.5rem;
+        margin: 0.5rem;
+        background-color: var(--darkGrey);
+    }
 </style>

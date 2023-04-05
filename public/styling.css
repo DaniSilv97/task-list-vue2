@@ -15,7 +15,6 @@
 
     --textColor: #e4e8ee;
 }
-
 *{
     color: var(--textColor);
 }
@@ -24,31 +23,25 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
 nav {
     padding: 30px;
 }
-
 nav a {
     font-weight: bold;
 }
-
 nav a.router-link-exact-active {
     color: var(--blue);
 }
-
 body{
     margin: 0;
     padding: 0;
 }
-
 .remove-default{
     appearance: none;
     border: none;
     outline: none;
     cursor: initial;
 }
-
 .button-holder{
     padding: 0.3rem;
     background-color: var(--darkGrey);
@@ -58,24 +51,15 @@ body{
     background-color: var(--lightGrey);
     margin: 0rem 0.25rem;
 }
-
 .radious-and-shadow{
     border-radius: 0.35rem;
     box-shadow: 0.2rem 0.2rem 0.2rem var(--darkestGrey);
-}
-
-.home{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-   justify-content: center;
 }
 .main-wrapper{
     display: flex;
     flex-direction: column;
     background-color: var(--grey);
     border-radius: 1.2rem;
-    width: 26rem;
     padding: 0.5rem 1rem;
     margin: 1rem;
 }

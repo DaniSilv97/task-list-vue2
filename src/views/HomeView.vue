@@ -7,7 +7,7 @@
     </div>
 
     <!--// TODO { O }: For list in all, create list-->
-    <div class="main-wrapper">
+    <div class="lists-container main-wrapper">
       <div v-for="list in allTaskLists" :key="list.id">
         <TaskList :thisList="list"></TaskList>
       </div>
@@ -28,18 +28,12 @@ import TaskList from '@/components/TaskList.vue';
       return{
         allTaskLists:[],
         testTask: { id: 11, 
-                    name: `I'm a list List`, 
+                    name: `I'm a task List`, 
                     isSelected: false, 
                     tasks:[{  id: 33, 
                               name: `I'm a task`,
                               date: '2022-04-05'},
                            {  id: 44, 
-                              name: `I'm a task`,
-                              date: '2022-04-05'}]},
-        testTask2: { id: 22, 
-                    name: `I'm a list List`, 
-                    isSelected: false, 
-                    tasks:[{  id: 55, 
                               name: `I'm a task`,
                               date: '2022-04-05'}]},
       }
@@ -52,11 +46,27 @@ import TaskList from '@/components/TaskList.vue';
     },
     mounted(){
       this.allTaskLists.push(this.testTask)
-      this.allTaskLists.push(this.testTask2)
+      this.allTaskLists.push(this.testTask)
+      this.allTaskLists.push(this.testTask)
+      this.allTaskLists.push(this.testTask)
+      this.allTaskLists.push(this.testTask)
+      this.allTaskLists.push(this.testTask)
     }
   }
 </script>
 
 <style scoped>
-
+  .home{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .lists-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-between;
+  }
 </style>
