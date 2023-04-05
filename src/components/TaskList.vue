@@ -63,6 +63,9 @@ import Task from './Task.vue';
         font-weight: 700;
         font-size: 1.2rem;
     }
+    .list-title:first-letter{
+        text-transform: capitalize;
+    }
     .tasks-container{
         padding: 0.2rem 0.5rem;
         margin: 0.5rem;

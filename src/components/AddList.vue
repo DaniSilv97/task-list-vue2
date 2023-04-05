@@ -21,6 +21,7 @@
         methods:{
             emitCreateList(){
                 this.$emit('createNewList', this.newTaskName)
+                this.newTaskName = ''
             }
         },
         computed:{
