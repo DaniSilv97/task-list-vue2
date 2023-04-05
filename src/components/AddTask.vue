@@ -2,10 +2,12 @@
     <div class="add-task radius-and-shadow">
         <input  type="text" 
                 class="name remove-default input-text"
-                placeholder="e.g. Do the dishes">
+                placeholder="e.g. Do the dishes"
+                v-model="newTaskName">
         <input  type="date" 
-                class="date remove-default input-text">
-        <button class="submit remove-default button">Add</button>        
+                class="date remove-default input-text"
+                v-model="newTaskDate">
+        <button class="submit remove-default button" @click="addNewTask">Add</button>        
     </div>
 </template>
 
@@ -16,11 +18,14 @@
         name: 'AddTask',
         data(){
             return{
-                
+                newTaskName: '',
+                newTaskDate: '',
             }
         },
         methods:{
-        
+            addNewTask(){
+                this.$emit('addNewTask', {id: this.thisList.id, name: this.newTaskName, date: this.newTaskDate})
+            },
         },
         computed:{
         

@@ -11,7 +11,7 @@
             <collapse-transition>
                 <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
                     <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task"></Task>
-                    <AddTask :thisList="thisList"></AddTask>
+                    <AddTask :thisList="thisList" v-on="addTaskHandlers"></AddTask>
                 </div>
             </collapse-transition>
         </div>  
@@ -29,7 +29,9 @@
         name: 'TaskList',
         data(){
             return{
-                
+                addTaskHandlers: {
+                    addNewTask: this.addNewTask
+                }
             }
         },
         methods:{
@@ -38,6 +40,9 @@
             },
             deleteList(){
                 this.$emit('deleteList', this.thisList)
+            },
+            addNewTask(eventData){
+                this.$emit('addNewTask', eventData)
             }
         },
         computed:{

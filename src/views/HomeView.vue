@@ -44,7 +44,8 @@
         allTaskLists:[],
         taskListEventHandlers : {
           showHideTasks: this.showHideTasks,
-          deleteList: this.deleteList
+          deleteList: this.deleteList,
+          addNewTask: this.addNewTask
         }
       }
     },
@@ -57,7 +58,7 @@
         }
       },
       createNewList(listName){
-        const newList = {id: this.todayAsId()+'11', name: listName, showTasks: true, tasks:[{id: 1, name: 'te1'},{id: 2, name: 'te2'}]}
+        const newList = {id: this.todayAsId()+'11', name: listName, showTasks: true, tasks:[]}
         this.allTaskLists.push(newList)
         this.saveToStorage()
       },
@@ -73,6 +74,14 @@
         this.allTaskLists.forEach(element=>{
           if(element.id === list.id){
             this.allTaskLists.splice(this.allTaskLists.indexOf(element), 1)
+            this.saveToStorage()
+          }
+        })
+      },
+      addNewTask(eventData){
+        this.allTaskLists.forEach(element=>{
+          if(element.id === eventData.id){
+            element.tasks.push({id: this.todayAsId()+'22', name: eventData.name, date: eventData.date, done: false})
             this.saveToStorage()
           }
         })
