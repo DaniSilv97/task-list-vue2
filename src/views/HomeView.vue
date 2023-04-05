@@ -59,11 +59,13 @@
       createNewList(listName){
         const newList = {id: this.todayAsId()+'11', name: listName, showTasks: true, tasks:[{id: 1, name: 'te1'},{id: 2, name: 'te2'}]}
         this.allTaskLists.push(newList)
+        this.saveToStorage()
       },
       showHideTasks(list){
         this.allTaskLists.forEach(element=>{
           if(element.id === list.id){
             element.showTasks = !element.showTasks
+            this.saveToStorage()
           }
         })
       },
@@ -71,16 +73,22 @@
         this.allTaskLists.forEach(element=>{
           if(element.id === list.id){
             this.allTaskLists.splice(this.allTaskLists.indexOf(element), 1)
+            this.saveToStorage()
           }
         })
+      },
+      saveToStorage(){
+        localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))
       }
     },
     computed:{
     
     },
-    mounted(){
-
-    }
+    created(){
+    if(JSON.parse(localStorage.getItem('ListOfTaskLists'))){
+      this.allTaskLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
+    } 
+  },
   }
 </script>
 
