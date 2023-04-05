@@ -10,16 +10,18 @@
             </div>
             <div class="tasks-container radious-and-shadow">
                 <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task"></Task>
+                <AddTask :thisList="thisList"></AddTask>
             </div>
         </div>  
     </div>
 </template>
 
 <script>
-    import Task from './Task.vue';
+    import AddTask from './AddTask.vue';
+import Task from './Task.vue';
     export default {
         props: [ 'thisList' ],
-        components: { Task }, 
+        components: { Task, AddTask }, 
         name: 'TaskList',
         data(){
             return{
