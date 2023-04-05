@@ -5,23 +5,27 @@
                 <h3 class="list-title"> {{ thisList.name }}</h3>
                 <div class="button-holder radius-and-shadow">
                     <button class="remove-default button">Delete</button>
-                    <button class="remove-default button">More...</button>
+                    <button class="remove-default button" @click="showHideTasks">{{ showTasks }}</button>
                 </div>
             </div>
-            <div class="tasks-container radius-and-shadow">
-                <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task"></Task>
-                <AddTask :thisList="thisList"></AddTask>
-            </div>
+            <collapse-transition>
+                <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
+                    <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task"></Task>
+                    <AddTask :thisList="thisList"></AddTask>
+                </div>
+            </collapse-transition>
         </div>  
     </div>
 </template>
 
 <script>
+    import { CollapseTransition } from 'vue2-transitions'
     import AddTask from './AddTask.vue';
-import Task from './Task.vue';
+    import Task from './Task.vue';
+
     export default {
         props: [ 'thisList' ],
-        components: { Task, AddTask }, 
+        components: { Task, AddTask, CollapseTransition }, 
         name: 'TaskList',
         data(){
             return{
@@ -29,10 +33,18 @@ import Task from './Task.vue';
             }
         },
         methods:{
-        
+            showHideTasks(){
+                this.$emit('showHideTasks', this.thisList)
+            }
         },
         computed:{
-        
+            showTasks: function(){
+                if(this.thisList.showTasks){
+                    return('Less...')
+                } else{
+                    return('More...')
+                }
+            }
         },
     }
 </script>

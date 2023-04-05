@@ -15,15 +15,20 @@
     </div>
 
     <!--// TODO { O }: For list in all, create list-->
+    
     <div v-show="allTaskLists.length" class="lists-container main-wrapper">
-      <div v-for="list in allTaskLists" :key="list.id">
-        <TaskList :thisList="list"></TaskList>
-      </div>
+      <slide-y-up-transition group>
+        <div v-for="list in allTaskLists" :key="list.id">
+          <TaskList :thisList="list" v-on:showHideTasks="showHideTasks($event)"></TaskList>
+        </div>
+      </slide-y-up-transition>
     </div>
+    
   </div>
 </template>
 
 <script>
+  import { SlideYUpTransition } from 'vue2-transitions'
   import AddList from '@/components/AddList.vue';
   import SearchList from '@/components/SearchList.vue';
   import TaskList from '@/components/TaskList.vue';
@@ -32,7 +37,7 @@
   export default {
     mixins: [ date ],
     props: [  ],
-    components: { SearchList, TaskList, AddList }, 
+    components: { SearchList, TaskList, AddList, SlideYUpTransition }, 
     name: 'HomeView',
     data(){
       return{
@@ -48,8 +53,15 @@
         }
       },
       createNewList(listName){
-        const newList = {id: this.todayAsId()+'11', name: listName, isSelected: false, tasks:[]}
+        const newList = {id: this.todayAsId()+'11', name: listName, showTasks: true, tasks:[{id: 1, name: 'te1'},{id: 2, name: 'te2'}]}
         this.allTaskLists.push(newList)
+      },
+      showHideTasks(list){
+        this.allTaskLists.forEach(element=>{
+          if(element.id === list.id){
+            element.showTasks = !element.showTasks
+          }
+        })
       },
     },
     computed:{
