@@ -16,8 +16,8 @@
 
     <!--// TODO { O }: For list in all, create list-->
     
-    <div v-show="allTaskLists.length" class="lists-container main-wrapper">
-      <slide-y-up-transition group>
+    <div v-show="allTaskLists.length" class="main-wrapper">
+      <slide-y-up-transition group class="lists-container">
         <div v-for="list in allTaskLists" :key="list.id">
           <TaskList :thisList="list" v-on="taskListEventHandlers"></TaskList>
         </div>
@@ -45,8 +45,10 @@
         taskListEventHandlers : {
           showHideTasks: this.showHideTasks,
           deleteList: this.deleteList,
+          listNameChange: this.listNameChange,
           addNewTask: this.addNewTask,
-          deleteTask: this.deleteTask
+          deleteTask: this.deleteTask,
+          taskNameChange: this.taskNameChange
         }
       }
     },
@@ -79,19 +81,38 @@
           }
         })
       },
-      addNewTask(eventData){
+      listNameChange(listNameChangeEventData){
+        console.log(listNameChangeEventData)
         this.allTaskLists.forEach(element=>{
-          if(element.id === eventData.id){
-            element.tasks.push({id: this.todayAsId()+'22', name: eventData.name, date: eventData.date, done: false})
+          if(element.id === listNameChangeEventData.listId){
+            element.name = listNameChangeEventData.newName
             this.saveToStorage()
           }
         })
       },
-      deleteTask(eventData){
+      addNewTask(addNewTaskEventData){
+        this.allTaskLists.forEach(element=>{
+          if(element.id === addNewTaskEventData.id){
+            element.tasks.push({id: this.todayAsId()+'22', name: addNewTaskEventData.name, date: addNewTaskEventData.date, done: false})
+            this.saveToStorage()
+          }
+        })
+      },
+      deleteTask(deleteTaskEventData){
         this.allTaskLists.forEach(list=>{
           list.tasks.forEach(task=>{
-            if(task.id === eventData.taskId){
+            if(task.id === deleteTaskEventData.taskId){
               list.tasks.splice(list.tasks.indexOf(task),1)
+              this.saveToStorage()
+            }
+          })
+        })
+      },
+      taskNameChange(taskNameChangeEventData){
+        this.allTaskLists.forEach(list=>{
+          list.tasks.forEach(task=>{
+            if(task.id === taskNameChangeEventData.taskId){
+              task.name = taskNameChangeEventData.newName
               this.saveToStorage()
             }
           })
