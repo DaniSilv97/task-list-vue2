@@ -3,7 +3,7 @@
 
     <!--// TODO { O }: Filter by list-->
     <div class="main-wrapper">
-      <SearchList></SearchList>
+      <SearchList :allTaskLists="allTaskLists"></SearchList>
     </div>
 
     <!--// TODO { O }: For list in all, create list-->
