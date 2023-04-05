@@ -2,7 +2,16 @@
   <div class="home">
     <!--// TODO { O }: Filter by list-->
     <div class="main-wrapper">
-      <SearchList :allTaskLists="allTaskLists"></SearchList>
+      <div class="button-holder radius-and-shadow first-action">
+        <div class="search-list-container radius-and-shadow">
+          <SearchList :allTaskLists="allTaskLists"></SearchList>
+        </div>
+      </div>
+      <div class="button-holder radius-and-shadow">
+        <div class="add-list-container radius-and-shadow">
+          <AddList></AddList>
+        </div>
+      </div>
     </div>
 
     <!--// TODO { O }: For list in all, create list-->
@@ -15,12 +24,13 @@
 </template>
 
 <script>
+import AddList from '@/components/AddList.vue';
 import SearchList from '@/components/SearchList.vue';
 import TaskList from '@/components/TaskList.vue';
 
   export default {
     props: [  ],
-    components: { SearchList, TaskList }, 
+    components: { SearchList, TaskList, AddList }, 
     name: 'HomeView',
     data(){
       return{
@@ -52,6 +62,14 @@ import TaskList from '@/components/TaskList.vue';
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+  .first-action{
+    margin-bottom: 0.5rem;
+  }
+  .search-list-container, 
+  .add-list-container{
+    padding: 0.3rem;
+    background-color: var(--grey);
   }
   .lists-container{
     display: flex;

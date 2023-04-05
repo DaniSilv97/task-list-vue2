@@ -33,6 +33,7 @@
     .search-list{
         display: flex;
         flex-direction: row;
+        align-items: center;
         width: 26rem;
     }
     .list-search {

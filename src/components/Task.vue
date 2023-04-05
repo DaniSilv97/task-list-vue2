@@ -1,10 +1,10 @@
 <template>
-    <div class="task radious-and-shadow">
+    <div class="task radius-and-shadow">
         <div class="check-and-name">
             <input type="checkbox" class="checkbox remove-default">
             <div class="task-name"> {{ thisTask.name }} </div>
         </div>
-        <div class="button-holder actions radious-and-shadow">
+        <div class="button-holder actions radius-and-shadow">
             <div class="date"> {{ thisTask.date }} </div>
             <button class="remove-default button"> Delete </button>
         </div>

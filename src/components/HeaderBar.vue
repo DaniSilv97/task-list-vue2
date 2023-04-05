@@ -1,12 +1,12 @@
 <template>
-    <div class="header-wrapper radious-and-shadow">
+    <div class="header-wrapper radius-and-shadow">
         <div class="header-content">
             <div> 
                 <h3 class="welcome">Welcome,</h3>
                 <input class="remove-default user-name" type="text" :placeholder="userPlaceHolder" >
             </div>
             <nav>
-                <div class="button-holder radious-and-shadow">
+                <div class="button-holder radius-and-shadow">
                     <router-link to="/" class="button">Home</router-link>
                     <router-link to="/settings" class="button">Settings</router-link>
                 </div>            

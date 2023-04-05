@@ -1,14 +1,14 @@
 <template>
-    <div class="task-list radious-and-shadow">
-        <div class="list-container radious-and-shadow">
+    <div class="task-list radius-and-shadow">
+        <div class="list-container radius-and-shadow">
             <div class="title-and-button">
                 <h3 class="list-title"> {{ thisList.name }}</h3>
-                <div class="button-holder radious-and-shadow">
+                <div class="button-holder radius-and-shadow">
                     <button class="remove-default button">Delete</button>
                     <button class="remove-default button">More...</button>
                 </div>
             </div>
-            <div class="tasks-container radious-and-shadow">
+            <div class="tasks-container radius-and-shadow">
                 <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task"></Task>
                 <AddTask :thisList="thisList"></AddTask>
             </div>

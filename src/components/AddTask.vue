@@ -1,5 +1,5 @@
 <template>
-    <div class="add-task radious-and-shadow">
+    <div class="add-task radius-and-shadow">
         <input  type="text" 
                 class="name remove-default"
                 placeholder="e.g. Do the dishes">
