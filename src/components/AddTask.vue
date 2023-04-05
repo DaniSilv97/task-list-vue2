@@ -1,9 +1,10 @@
 <template>
     <div class="add-task radius-and-shadow">
         <input  type="text" 
-                class="name remove-default"
+                class="name remove-default input-text"
                 placeholder="e.g. Do the dishes">
-        <input type="date" class="date remove-default">
+        <input  type="date" 
+                class="date remove-default input-text">
         <button class="submit remove-default button">Add</button>        
     </div>
 </template>
@@ -46,9 +47,6 @@
         padding: 0.5rem 0.2rem 0.5rem 0.5rem;
     }
     .name, .date{
-        border-radius: 0.5rem;
-        background-color: var(--darkGrey);
-        color: var(--lightestGrey);
         margin-right: 0.5rem;
     }
     .submit{

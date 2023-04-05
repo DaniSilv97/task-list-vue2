@@ -81,3 +81,8 @@ body{
     padding: 0.5rem 1rem;
     margin: 1rem;
 }
+.input-text{
+    border-radius: 0.5rem;
+    background-color: var(--darkGrey);
+    color: var(--lightestGrey);
+}
