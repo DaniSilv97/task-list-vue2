@@ -1,13 +1,13 @@
 <template>
   <div class="home">
     <!--// TODO { O }: Filter by list-->
-    <div class="main-wrapper">
+    <div class="list-actions main-wrapper">
       <div class="button-holder radius-and-shadow first-action">
         <div class="search-list-container radius-and-shadow">
           <SearchList :allTaskLists="allTaskLists"></SearchList>
         </div>
       </div>
-      <div class="button-holder radius-and-shadow">
+      <div class="button-holder radius-and-shadow second-action">
         <div class="add-list-container radius-and-shadow">
           <AddList v-on:createNewList="checkForName($event)"></AddList>
         </div>
@@ -48,7 +48,8 @@
           listNameChange: this.listNameChange,
           addNewTask: this.addNewTask,
           deleteTask: this.deleteTask,
-          taskNameChange: this.taskNameChange
+          taskNameChange: this.taskNameChange,
+          searchTask: this.searchTask
         }
       }
     },
@@ -81,41 +82,54 @@
           }
         })
       },
-      listNameChange(listNameChangeEventData){
-        console.log(listNameChangeEventData)
+      listNameChange(eventData){
         this.allTaskLists.forEach(element=>{
-          if(element.id === listNameChangeEventData.listId){
-            element.name = listNameChangeEventData.newName
+          if(element.id === eventData.listId){
+            element.name = eventData.newName
             this.saveToStorage()
           }
         })
       },
-      addNewTask(addNewTaskEventData){
+      addNewTask(eventData){
         this.allTaskLists.forEach(element=>{
-          if(element.id === addNewTaskEventData.id){
-            element.tasks.push({id: this.todayAsId()+'22', name: addNewTaskEventData.name, date: addNewTaskEventData.date, done: false})
+          if(element.id === eventData.id){
+            element.tasks.push({id: this.todayAsId()+'22', name: eventData.name, date: eventData.date, done: false, isShown: true})
             this.saveToStorage()
           }
         })
       },
-      deleteTask(deleteTaskEventData){
+      deleteTask(eventData){
         this.allTaskLists.forEach(list=>{
           list.tasks.forEach(task=>{
-            if(task.id === deleteTaskEventData.taskId){
+            if(task.id === eventData.taskId){
               list.tasks.splice(list.tasks.indexOf(task),1)
               this.saveToStorage()
             }
           })
         })
       },
-      taskNameChange(taskNameChangeEventData){
+      taskNameChange(eventData){
         this.allTaskLists.forEach(list=>{
           list.tasks.forEach(task=>{
-            if(task.id === taskNameChangeEventData.taskId){
-              task.name = taskNameChangeEventData.newName
+            if(task.id === eventData.taskId){
+              task.name = eventData.newName
               this.saveToStorage()
             }
           })
+        })
+      },
+      searchTask(eventData){
+        console.log('Search: ',eventData)
+        this.allTaskLists.forEach(element=>{
+          if(element.id === eventData.listId){
+            element.tasks.forEach(task=>{
+              if(task.name.includes(eventData.lookFor)){
+                task.isShown = true
+              } else{
+                task.isShown = false
+              }
+            })
+          }
         })
       },
       saveToStorage(){
@@ -140,8 +154,18 @@
     justify-content: center;
     align-items: center;
   }
-  .first-action{
-    margin-bottom: 0.5rem;
+  .list-actions{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+  }
+  .first-action,
+  .second-action{
+    margin: 0.25rem;
+    min-width: 26.7rem;
   }
   .search-list-container, 
   .add-list-container{

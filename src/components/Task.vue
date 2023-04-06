@@ -1,14 +1,16 @@
 <template>
-    <div class="task radius-and-shadow">
-        <div class="check-and-name">
-            <input type="checkbox" class="checkbox remove-default">
-            <input type="text" class="remove-default task-name" v-model="taskName" @change="taskNameChange">
+    <div  v-show="thisTask.isShown">
+        <div class="task radius-and-shadow">
+            <div class="check-and-name">
+                <input type="checkbox" class="checkbox remove-default">
+                <input type="text" class="remove-default task-name" v-model="taskName" @change="taskNameChange">
+            </div>
+            <div class="button-holder actions radius-and-shadow">
+                <div class="date"> {{ thisTask.date }} </div>
+                <button class="remove-default button" @click="deleteTask"> Delete </button>
+            </div>
         </div>
-        <div class="button-holder actions radius-and-shadow">
-            <div class="date"> {{ thisTask.date }} </div>
-            <button class="remove-default button" @click="deleteTask"> Delete </button>
-        </div>
-    </div>
+    </div>    
 </template>
 
 <script>
