@@ -26,12 +26,12 @@
             }
         },
         methods:{
-            // TODO clear field on new task
             addNewTask(){
                 this.$emit('addNewTask', {  id: this.thisList.id, 
                                             name: this.newTaskName, 
                                             date: this.newTaskDate
                                          })
+                this.newTaskName = ''
             },
         },
         computed:{
