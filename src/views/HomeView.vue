@@ -4,7 +4,7 @@
     <div class="list-actions main-wrapper">
       <div class="button-holder radius-and-shadow first-action">
         <div class="search-list-container radius-and-shadow">
-          <SearchList :allTaskLists="allTaskLists"></SearchList>
+          <SearchList :allTaskLists="allTaskLists" v-on:doSelectList="doSelectList"></SearchList>
         </div>
       </div>
       <div class="button-holder radius-and-shadow second-action">
@@ -17,7 +17,9 @@
     <div v-show="allTaskLists.length" class="main-wrapper">
       <slide-y-up-transition group class="lists-container">
         <div v-for="list in allTaskLists" :key="list.id">
-          <TaskList :thisList="list" v-on="taskListEventHandlers"></TaskList>
+          <div v-show="list.isShown">
+            <TaskList :thisList="list" v-on="taskListEventHandlers"></TaskList>
+          </div>
         </div>
       </slide-y-up-transition>
     </div>
@@ -61,7 +63,11 @@
         }
       },
       createNewList(listName){
-        const newList = {id: this.todayAsId()+'11', name: listName, showTasks: true, tasks:[]}
+        const newList = { id: this.todayAsId()+'11', 
+                          name: listName, 
+                          isShown: true,
+                          showTasks: true, 
+                          tasks:[]}
         this.allTaskLists.push(newList)
         this.saveToStorage()
       },
@@ -147,6 +153,22 @@
             })
           }
         })
+      },
+      doSelectList(listName){
+        console.log(listName)
+        if(!listName){
+          this.allTaskLists.forEach(list=>{
+            list.isShown = true
+          })
+        } else{
+          this.allTaskLists.forEach(list=>{
+            if(list.name === listName){
+              list.isShown = true
+            } else{
+              list.isShown = false
+            }
+          })
+        }
       },
       saveToStorage(){
         localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))

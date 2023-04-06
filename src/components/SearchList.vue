@@ -1,12 +1,12 @@
 <template>
     <div class="search-list">
-        <select class="list-search">
+        <select class="list-search" v-model="selectedList">
             <option value=""> Show all </option>
             <template v-for="list in allTaskLists">
-                <option :value="list.name">{{ list.name }}</option>
+                <option :value="list.name" :key="list.id">{{ list.name }}</option>
             </template>
         </select>
-        <button class="remove-default button">Select List</button>
+        <button class="remove-default button" @click="doSelectList" >Select List</button>
     </div>
 </template>
 
@@ -17,11 +17,13 @@
         name: 'SearchList',
         data(){
             return{
-                
+                selectedList: ''
             }
         },
         methods:{
-        
+            doSelectList(){
+                this.$emit('doSelectList', this.selectedList)
+            }
         },
         computed:{
         
