@@ -47,7 +47,8 @@
           addNewTask: this.addNewTask,
           deleteTask: this.deleteTask,
           taskNameChange: this.taskNameChange,
-          searchTask: this.searchTask
+          searchTask: this.searchTask,
+          checkChanged: this.checkChanged
         }
       }
     },
@@ -91,7 +92,11 @@
       addNewTask(eventData){
         this.allTaskLists.forEach(element=>{
           if(element.id === eventData.id){
-            element.tasks.push({id: this.todayAsId()+'22', name: eventData.name, date: eventData.date, done: false, isShown: true})
+            element.tasks.push({  id: this.todayAsId()+'22', 
+                                  name: eventData.name, 
+                                  date: eventData.date, 
+                                  done: false, 
+                                  isShown: true})
             this.saveToStorage()
           }
         })
@@ -125,6 +130,19 @@
                 task.isShown = true
               } else{
                 task.isShown = false
+              }
+            })
+          }
+        })
+      },
+      checkChanged(eventData){
+        this.allTaskLists.forEach(list=>{
+          if(list.id === eventData.listId){
+            list.tasks.forEach(task=>{
+              if(task.id === eventData.taskId){
+                console.log(task)
+                task.done = !task.done
+                this.saveToStorage()
               }
             })
           }

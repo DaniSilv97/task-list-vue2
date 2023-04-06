@@ -36,7 +36,8 @@
                 },
                 taskHandlers: {
                     deleteTask: this.deleteTask,
-                    taskNameChange: this.taskNameChange
+                    taskNameChange: this.taskNameChange,
+                    checkChanged: this.checkChanged
                 },
                 searchTaskHandlers: {
                     searchTask: this.searchTask
@@ -67,6 +68,10 @@
             searchTask(searchContent){
                 const newData = { listId: this.thisList.id, lookFor: searchContent }
                 this.$emit('searchTask', newData)
+            },
+            checkChanged(taskId){
+               const newData = { listId: this.thisList.id, taskId: taskId }
+               this.$emit('checkChanged', newData)
             }
         },
         computed:{
