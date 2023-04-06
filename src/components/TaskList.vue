@@ -10,6 +10,7 @@
             </div>
             <collapse-transition>
                 <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
+                    <SearchTask v-on="searchTaskHandlers"></SearchTask>
                     <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task" v-on="taskHandlers"></Task>
                     <AddTask :thisList="thisList" v-on="addTaskHandlers"></AddTask>
                 </div>
@@ -22,10 +23,11 @@
     import { CollapseTransition } from 'vue2-transitions'
     import AddTask from './AddTask.vue';
     import Task from './Task.vue';
+    import SearchTask from './SearchTask.vue';
 
     export default {
         props: [ 'thisList' ],
-        components: { Task, AddTask, CollapseTransition }, 
+        components: { Task, AddTask, SearchTask, CollapseTransition }, 
         name: 'TaskList',
         data(){
             return{
@@ -35,6 +37,9 @@
                 taskHandlers: {
                     deleteTask: this.deleteTask,
                     taskNameChange: this.taskNameChange
+                },
+                searchTaskHandlers: {
+                    searchTask: this.searchTask
                 },
                 listName: ''
             }
@@ -58,6 +63,10 @@
             taskNameChange(eventData){
                 eventData.listId = this.thisList.id
                 this.$emit('taskNameChange', eventData)
+            },
+            searchTask(searchContent){
+                const newData = { listId: this.thisList.id, lookFor: searchContent }
+                this.$emit('searchTask', newData)
             }
         },
         computed:{
