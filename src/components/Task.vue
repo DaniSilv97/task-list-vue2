@@ -6,7 +6,7 @@
                 <input type="text" class="remove-default task-name" v-model="taskName" @change="taskNameChange">
             </div>
             <div class="button-holder actions radius-and-shadow">
-                <div class="date"> {{ thisTask.date }} </div>
+                <div class="date" :style="colorTime"> {{ thisTask.date }} </div>
                 <button class="remove-default button" @click="deleteTask"> Delete </button>
             </div>
         </div>
@@ -14,13 +14,17 @@
 </template>
 
 <script>
+    import date from '../mixins/date'
+
     export default {
+        mixins: [ date ] ,
         props: [ 'thisTask' ],
         components: {  }, 
         name: 'Task',
         data(){
             return{
-                taskName: ''
+                taskName: '',
+                timeLeft: 0
             }
         },
         methods:{
@@ -35,10 +39,21 @@
             }
         },
         computed:{
-
+            colorTime: function(){
+                if(this.timeLeft < 0){
+                    return('color: var(--noTime)')
+                } else if(this.timeLeft < 2){
+                    return('color: var(--shortTime)')
+                } else if(this.timeLeft < 10){
+                    return('color: var(--enoughTime)')
+                } else{
+                    return('color: var(--longTime)')                    
+                }
+            },
         },
         mounted(){
             this.taskName = this.thisTask.name
+            this.timeLeft = this.getTimeLeft(this.thisTask.date)
         }
     }
 </script>

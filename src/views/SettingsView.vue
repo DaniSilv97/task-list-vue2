@@ -21,20 +21,20 @@
                                 mainColor: '#0087ff', 
                                 secColor: '#00e1ff', 
                                 enoughTime: '#00d8ff', 
-                                shortTime: '#0097ff', 
+                                shortTime: '#00A4FF', 
                                 noTime: '#006eff'},
                             {   id: 2, 
                                 mainColor: '#ff8c00', 
                                 secColor: '#fed766', 
                                 enoughTime: '#fcc000', 
-                                shortTime: '#f68608', 
-                                noTime: '#dd242a'},
+                                shortTime: '#FE6000', 
+                                noTime: '#ff0000'},
                             {   id: 3, 
                                 mainColor: '#268d17', 
                                 secColor: '#5bc328', 
                                 enoughTime: '#77FF94', 
-                                shortTime: '#A1E44D', 
-                                noTime: '#60993E'}]
+                                shortTime: '#3DBE54', 
+                                noTime: '#058016'}]
             }
         },
         methods:{
