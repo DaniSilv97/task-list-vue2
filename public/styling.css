@@ -19,6 +19,11 @@
 *{
     color: var(--textColor);
 }
+body{
+    background: -webkit-linear-gradient(315deg, var(--blue) 0%, var(--black) 100%);
+    width: 100%;
+    height: 100vh;
+}
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
