@@ -2,7 +2,7 @@
     <div class="header-wrapper radius-and-shadow">
         <div class="welcome-user"> 
             <h3 class="welcome">
-                Welcome, <input class="remove-default user-name" type="text" placeholder="Name Here" >
+                Welcome, <input class="remove-default user-name" type="text" placeholder="Name Here" v-model="userName" @change="changedUser">
             </h3>
         </div>
         <div class="nav-container button-holder radius-and-shadow">
@@ -21,15 +21,22 @@
         name: 'HeaderBar',
         data(){
             return{
-                
+                userName: ''
             }
         },
         methods:{
-        
+            changedUser(){
+                localStorage.setItem('userName', JSON.stringify(this.userName))
+            }
         },
         computed:{
         
         },
+        created(){
+            if(JSON.parse(localStorage.getItem('userName'))){
+                this.userName = JSON.parse(localStorage.getItem('userName')
+            )}
+        }
     }
 </script>
 
