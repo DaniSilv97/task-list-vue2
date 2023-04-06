@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <!--// TODO { O }: Filter by list-->
+    <!--// TODO: Filter by list-->
     <div class="list-actions main-wrapper">
       <div class="button-holder radius-and-shadow first-action">
         <div class="search-list-container radius-and-shadow">
@@ -14,8 +14,6 @@
       </div>
     </div>
 
-    <!--// TODO { O }: For list in all, create list-->
-    
     <div v-show="allTaskLists.length" class="main-wrapper">
       <slide-y-up-transition group class="lists-container">
         <div v-for="list in allTaskLists" :key="list.id">
