@@ -1,13 +1,13 @@
 <template>
   <div class="home">
     <!--// TODO { O }: Filter by list-->
-    <div class="main-wrapper">
+    <div class="list-actions main-wrapper">
       <div class="button-holder radius-and-shadow first-action">
         <div class="search-list-container radius-and-shadow">
           <SearchList :allTaskLists="allTaskLists"></SearchList>
         </div>
       </div>
-      <div class="button-holder radius-and-shadow">
+      <div class="button-holder radius-and-shadow second-action">
         <div class="add-list-container radius-and-shadow">
           <AddList v-on:createNewList="checkForName($event)"></AddList>
         </div>
@@ -140,8 +140,18 @@
     justify-content: center;
     align-items: center;
   }
-  .first-action{
-    margin-bottom: 0.5rem;
+  .list-actions{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+  }
+  .first-action,
+  .second-action{
+    margin: 0.25rem;
+    min-width: 26.7rem;
   }
   .search-list-container, 
   .add-list-container{
