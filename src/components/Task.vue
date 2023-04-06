@@ -2,7 +2,7 @@
     <div  v-show="thisTask.isShown">
         <div class="task radius-and-shadow">
             <div class="check-and-name">
-                <input type="checkbox" class="checkbox remove-default">
+                <input type="checkbox" class="checkbox remove-default" @click="checkChanged" v-model="thisTask.done">
                 <input type="text" class="remove-default task-name" v-model="taskName" @change="taskNameChange">
             </div>
             <div class="button-holder actions radius-and-shadow">
@@ -29,10 +29,13 @@
             },
             taskNameChange(){
                 this.$emit('taskNameChange', {listId: '', taskId: this.thisTask.id, newName: this.taskName})
+            },
+            checkChanged(){
+                this.$emit('checkChanged', this.thisTask.id)
             }
         },
         computed:{
-        
+
         },
         mounted(){
             this.taskName = this.thisTask.name
