@@ -4,16 +4,20 @@
             <div v-for="swatch in swatches" :key="swatch.id" >
                 <Swatches :thisSwatch="swatch" v-on:setTheme="setTheme"></Swatches>
             </div>
+            <div>
+                <SwatchCostum></SwatchCostum>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import Swatches from '@/components/Swatches.vue'
+    import SwatchCostum from '@/components/SwatchCostum.vue'
     
     export default {
         props: [  ],
-        components: { Swatches }, 
+        components: { Swatches, SwatchCostum }, 
         name: 'SettingsView',
         data(){
             return{
@@ -34,7 +38,8 @@
                                 secColor: '#5bc328', 
                                 enoughTime: '#77FF94', 
                                 shortTime: '#3DBE54', 
-                                noTime: '#058016'}]
+                                noTime: '#058016'}
+                        ],
             }
         },
         methods:{
