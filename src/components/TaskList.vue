@@ -11,7 +11,14 @@
             <collapse-transition>
                 <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
                     <SearchTask v-on="searchTaskHandlers"></SearchTask>
-                    <Task  v-for="task in thisList.tasks" :key="task.id" :thisTask="task" v-on="taskHandlers"></Task>
+                    <Container  group-name="dragContainers" 
+                                @drag-start="dragStart(thisList, $event)" 
+                                @drop="dragEnd(thisList, $event)"
+                                :get-child-payload="getChildPayload">
+                        <Draggable v-for="task in thisList.tasks" :key="task.id">
+                            <Task :thisTask="task" v-on="taskHandlers"></Task>
+                        </Draggable>
+                    </Container>
                     <AddTask :thisList="thisList" v-on="addTaskHandlers"></AddTask>
                 </div>
             </collapse-transition>
@@ -20,6 +27,7 @@
 </template>
 
 <script>
+    import { Container, Draggable } from "vue-smooth-dnd";
     import { CollapseTransition } from 'vue2-transitions'
     import AddTask from './AddTask.vue';
     import Task from './Task.vue';
@@ -27,7 +35,7 @@
 
     export default {
         props: [ 'thisList' ],
-        components: { Task, AddTask, SearchTask, CollapseTransition }, 
+        components: { Task, AddTask, SearchTask, CollapseTransition, Container, Draggable }, 
         name: 'TaskList',
         data(){
             return{
@@ -42,7 +50,11 @@
                 searchTaskHandlers: {
                     searchTask: this.searchTask
                 },
-                listName: ''
+                listName: '',
+                startListId:'', 
+                startTaskIndex:'', 
+                endListId:'', 
+                endTaskIndex:''
             }
         },
         methods:{
@@ -72,6 +84,37 @@
             checkChanged(taskId){
                const newData = { listId: this.thisList.id, taskId: taskId }
                this.$emit('checkChanged', newData)
+            },
+            dragStart(list, eventData){
+                const {payload, isSource} = eventData 
+                if(isSource){
+                    this.startListId = list.id
+                    this.startTaskIndex = payload.index
+                    this.emitStartDrag()
+                }
+            },
+            dragEnd(list, eventData){
+                const {removedIndex, addedIndex} = eventData 
+                if(list.id === this.startListId && removedIndex === addedIndex){
+                    return
+                } else if(addedIndex !== null){
+                    this.endListId = list.id
+                    this.endTaskIndex = eventData.addedIndex
+                    this.emitEndDrag()
+                }
+            },            
+            getChildPayload(index){
+                return { index }
+            },
+            emitStartDrag(){
+                const dragObj = {   startListId: this.startListId, 
+                                    startTaskIndex :this.startTaskIndex}
+                this.$emit('startDrag',dragObj)
+            },
+            emitEndDrag(){
+                const dragObj = {   endListId: this.endListId, 
+                                    endTaskIndex :this.endTaskIndex}
+                this.$emit('endDrag',dragObj)
             }
         },
         computed:{

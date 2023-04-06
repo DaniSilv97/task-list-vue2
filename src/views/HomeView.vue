@@ -50,8 +50,11 @@
           deleteTask: this.deleteTask,
           taskNameChange: this.taskNameChange,
           searchTask: this.searchTask,
-          checkChanged: this.checkChanged
-        }
+          checkChanged: this.checkChanged,
+          startDrag: this.saveStart,
+          endDrag: this.saveEnd
+        },
+        dragEventData: {startListId:'', startTaskIndex:'', endListId:'', endTaskIndex:''}
       }
     },
     methods:{
@@ -169,6 +172,36 @@
             }
           })
         }
+      },
+      saveStart(eventData){
+        this.dragEventData.startListId = eventData.startListId
+        this.dragEventData.startTaskIndex = eventData.startTaskIndex
+      },  
+      saveEnd(eventData){
+        this.dragEventData.endListId = eventData.endListId
+        this.dragEventData.endTaskIndex = eventData.endTaskIndex
+        this.doDrag()
+      },
+      doDrag(){
+        this.allTaskLists.forEach(list=>{
+          if(list.id === this.dragEventData.startListId){
+            const removedTask = list.tasks.splice(this.dragEventData.startTaskIndex, 1)
+            this.placeTask(this.dragEventData, removedTask)
+          }
+        })
+      },
+      placeTask(eventData, taskObj){
+        this.allTaskLists.forEach(list=>{
+          if(list.id === eventData.endListId){
+            if(eventData.endTaskIndex === 0){
+              list.tasks.unshift(taskObj[0])
+              this.saveToStorage()
+            } else{
+              list.tasks.splice(eventData.endTaskIndex, 0, taskObj[0])
+              this.saveToStorage()
+            }
+          }
+        })
       },
       saveToStorage(){
         localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))
