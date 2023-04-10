@@ -29,9 +29,9 @@
 <script>
     import { Container, Draggable } from "vue-smooth-dnd";
     import { CollapseTransition } from 'vue2-transitions'
-    import AddTask from './AddTask.vue';
-    import Task from './Task.vue';
-    import SearchTask from './SearchTask.vue';
+    import AddTask from '../taskList/AddTask.vue';
+    import Task from '../taskList/Task.vue';
+    import SearchTask from '../taskList/SearchTask.vue';
 
     export default {
         props: [ 'thisList' ],

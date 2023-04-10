@@ -31,10 +31,10 @@
 <script>
   import { SlideYUpTransition } from 'vue2-transitions'
   import { FadeTransition  } from 'vue2-transitions'
-  import AddList from '@/components/AddList.vue';
-  import SearchList from '@/components/SearchList.vue';
-  import TaskList from '@/components/TaskList.vue';
-  import Popup from '@/components/Popup.vue'
+  import AddList from '@/components/homeView/AddList.vue';
+  import SearchList from '@/components/homeView/SearchList.vue';
+  import TaskList from '@/components/homeView/TaskList.vue';
+  import Popup from '@/components/homeView/Popup.vue'
   import date from '../mixins/date'
 
   export default {

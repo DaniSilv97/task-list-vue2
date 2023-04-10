@@ -12,8 +12,8 @@
 </template>
 
 <script>
-    import Swatches from '@/components/Swatches.vue'
-    import SwatchCostum from '@/components/SwatchCostum.vue'
+    import Swatches from '@/components/settingsView/Swatches.vue'
+    import SwatchCostum from '@/components/settingsView/SwatchCostum.vue'
     
     export default {
         props: [  ],
