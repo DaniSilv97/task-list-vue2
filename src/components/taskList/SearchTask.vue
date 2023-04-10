@@ -31,7 +31,7 @@
 
 <style scoped>
     .search-task{
-        margin: 0.2rem 0rem 1rem 0rem;
+        margin: 0.2rem 0rem 0.5rem 0rem;
         display: flex;
         flex-direction: row;
         justify-content: space-between;

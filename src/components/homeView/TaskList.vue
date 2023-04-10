@@ -11,6 +11,7 @@
             <collapse-transition>
                 <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
                     <SearchTask v-on="searchTaskHandlers"></SearchTask>
+                    <Sorters></Sorters>
                     <Container  group-name="dragContainers" 
                                 @drag-start="dragStart(thisList, $event)" 
                                 @drop="dragEnd(thisList, $event)"
@@ -32,10 +33,11 @@
     import AddTask from '../taskList/AddTask.vue';
     import Task from '../taskList/Task.vue';
     import SearchTask from '../taskList/SearchTask.vue';
+    import Sorters from '../taskList/Sorters.vue';
 
     export default {
         props: [ 'thisList' ],
-        components: { Task, AddTask, SearchTask, CollapseTransition, Container, Draggable }, 
+        components: { Task, AddTask, SearchTask, Sorters, CollapseTransition, Container, Draggable }, 
         name: 'TaskList',
         data(){
             return{
