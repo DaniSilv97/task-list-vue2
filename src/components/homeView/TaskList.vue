@@ -2,16 +2,16 @@
     <div class="task-list radius-and-shadow">
         <div class="list-container radius-and-shadow">
             <div class="title-and-button">
-                <input type="text" class="remove-default list-title" v-model="listName" @change="listNameChange">
+                <input type="text" class="remove-default list-title" v-model="listName" @change="$emit('listNameChange', {listId: thisList.id, newName: listName})">
                 <div class="button-holder radius-and-shadow">
-                    <button class="remove-default button" @click="deleteList">Delete</button>
-                    <button class="remove-default button" @click="showHideTasks">{{ showTasks }}</button>
+                    <button class="remove-default button" @click="$emit('deleteList', thisList)">Delete</button>
+                    <button class="remove-default button" @click="$emit('showHideTasks', thisList)">{{ showTasks }}</button>
                 </div>
             </div>
             <collapse-transition>
                 <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
-                    <SearchTask v-on="searchTaskHandlers"></SearchTask>
-                    <Sorters></Sorters>
+                    <SearchTask v-on:searchTask="searchTask"></SearchTask>
+                    <Sorters v-on="sortersHandlers"></Sorters>
                     <Container  group-name="dragContainers" 
                                 @drag-start="dragStart(thisList, $event)" 
                                 @drop="dragEnd(thisList, $event)"
@@ -49,8 +49,10 @@
                     taskNameChange: this.taskNameChange,
                     checkChanged: this.checkChanged
                 },
-                searchTaskHandlers: {
-                    searchTask: this.searchTask
+                sortersHandlers: {
+                    showAll: this.showAll,
+                    showDone: this.showDone,
+                    showNotDone: this.showNotDone,
                 },
                 listName: '',
                 startListId:'', 
@@ -60,20 +62,11 @@
             }
         },
         methods:{
-            showHideTasks(){
-                this.$emit('showHideTasks', this.thisList)
-            },
-            deleteList(){
-                this.$emit('deleteList', this.thisList)
-            },
             addNewTask(eventData){
                 this.$emit('addNewTask', eventData)
             },
             deleteTask(eventTaskId){
                 this.$emit('deleteTask', {listId: this.thisList.id, taskId: eventTaskId})
-            },
-            listNameChange(){
-                this.$emit('listNameChange', {listId: this.thisList.id, newName: this.listName})
             },
             taskNameChange(eventData){
                 eventData.listId = this.thisList.id
@@ -117,6 +110,15 @@
                 const dragObj = {   endListId: this.endListId, 
                                     endTaskIndex :this.endTaskIndex}
                 this.$emit('endDrag',dragObj)
+            },
+            showAll(){
+                this.$emit('showAll', (this.thisList.id))
+            },
+            showDone(){
+                this.$emit('showDone', (this.thisList.id))
+            },
+            showNotDone(){
+                this.$emit('showNotDone', (this.thisList.id))
             }
         },
         computed:{

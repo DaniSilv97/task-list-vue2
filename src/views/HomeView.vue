@@ -55,7 +55,10 @@
           searchTask: this.searchTask,
           checkChanged: this.checkChanged,
           startDrag: this.saveStart,
-          endDrag: this.saveEnd
+          endDrag: this.saveEnd,
+          showAll: this.showAll,
+          showDone: this.showDone,
+          showNotDone: this.showNotDone,
         },
         dragEventData: {startListId:'', startTaskIndex:'', endListId:'', endTaskIndex:''},
         showPopup: false
@@ -216,7 +219,42 @@
       },
       hidePopup(){
         this.showPopup = false
-      },      
+      },
+      showAll(listId){
+        this.allTaskLists.forEach(list=>{
+          if(list.id === listId){
+            list.tasks.forEach(task=>{
+              task.isShown = true
+            })
+          }
+        })
+      },
+      showDone(listId){
+        this.allTaskLists.forEach(list=>{
+          if(list.id === listId){
+            list.tasks.forEach(task=>{
+              if(task.done){
+                task.isShown = true
+              } else{
+                task.isShown = false
+              }
+            })
+          }
+        })
+      },
+      showNotDone(listId){
+        this.allTaskLists.forEach(list=>{
+          if(list.id === listId){
+            list.tasks.forEach(task=>{
+              if(!task.done){
+                task.isShown = true
+              } else{
+                task.isShown = false
+              }
+            })
+          }
+        })
+      },
       saveToStorage(){
         localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))
       }

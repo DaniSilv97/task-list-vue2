@@ -1,8 +1,8 @@
 <template>
     <div class="sorters radius-and-shadow">
-        <button class="button">Show All</button>
-        <button class="button">Show Done</button>
-        <button class="button">Show Not Done</button>
+        <button class="button" @click="$emit('showAll')">Show All</button>
+        <button class="button" @click="$emit('showDone')">Show Done</button>
+        <button class="button" @click="$emit('showNotDone')">Show Not Done</button>
     </div>
 </template>
 
