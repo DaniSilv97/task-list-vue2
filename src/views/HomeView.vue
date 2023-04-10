@@ -49,7 +49,7 @@
           showHideTasks: this.showHideTasks,
           deleteList: this.deleteList,
           listNameChange: this.listNameChange,
-          addNewTask: this.addNewTask,
+          addNewTask: this.checkForTaskName,
           deleteTask: this.deleteTask,
           taskNameChange: this.taskNameChange,
           searchTask: this.searchTask,
@@ -101,6 +101,13 @@
             this.saveToStorage()
           }
         })
+      },
+      checkForTaskName(task){
+        if(task.name.replaceAll(' ', '')){
+          this.addNewTask(task)
+        } else{
+          this.showPopup = true
+        }
       },
       addNewTask(eventData){
         this.allTaskLists.forEach(element=>{
