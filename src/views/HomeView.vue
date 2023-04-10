@@ -8,7 +8,7 @@
       </div>
       <div class="button-holder radius-and-shadow second-action">
         <div class="add-list-container radius-and-shadow">
-          <AddList v-on:createNewList="checkForName($event)"></AddList>
+          <AddList v-on:createNewList="checkForName"></AddList>
         </div>
       </div>
     </div>
@@ -77,7 +77,8 @@
        *@param listName The name of the list to check. 
        */
       checkForName(listName){
-        if(listName.replaceAll(' ', '')){
+        const newListName = listName.replaceAll(' ', '')
+        if(newListName){
           this.createNewList(listName)
         } else{
           this.showPopup = true
@@ -91,6 +92,7 @@
        */
       createNewList(listName){
         const newList = { id: this.todayAsId()+'11', 
+                          type: 'list', //TODO enum
                           name: listName, 
                           isShown: true,
                           showTasks: true, 
@@ -198,11 +200,12 @@
         this.allTaskLists.forEach(element=>{
           if(element.id === eventData.listId){
             element.tasks.forEach(task=>{
-              if(task.name.includes(eventData.lookFor)){
+              task.isShown = task.name.includes(eventData.lookFor)
+              /* if(task.name.includes(eventData.lookFor)){
                 task.isShown = true
               } else{
                 task.isShown = false
-              }
+              } */
             })
           }
         })
@@ -234,6 +237,7 @@
           })
         } else{
           this.allTaskLists.forEach(list=>{
+            // TODO use ID
             if(list.name === listName){
               list.isShown = true
             } else{
@@ -242,6 +246,7 @@
           })
         }
       },
+      //TODO mixin dnd
       /**
        * Alters data to save drag start info
        * @param eventData obj with startListId and startTaskIndex
@@ -278,13 +283,8 @@
       placeTask(eventData, taskObj){
         this.allTaskLists.forEach(list=>{
           if(list.id === eventData.endListId){
-            if(eventData.endTaskIndex === 0){
-              list.tasks.unshift(taskObj[0])
-              this.saveToStorage()
-            } else{
-              list.tasks.splice(eventData.endTaskIndex, 0, taskObj[0])
-              this.saveToStorage()
-            }
+            list.tasks.splice(eventData.endTaskIndex, 0, taskObj[0])       
+            this.saveToStorage()
           }
         })
       },
@@ -315,11 +315,7 @@
         this.allTaskLists.forEach(list=>{
           if(list.id === listId){
             list.tasks.forEach(task=>{
-              if(task.done){
-                task.isShown = true
-              } else{
-                task.isShown = false
-              }
+              task.isShown = task.done
             })
           }
         })
@@ -332,11 +328,7 @@
         this.allTaskLists.forEach(list=>{
           if(list.id === listId){
             list.tasks.forEach(task=>{
-              if(!task.done){
-                task.isShown = true
-              } else{
-                task.isShown = false
-              }
+              task.isShown = !task.done
             })
           }
         })
