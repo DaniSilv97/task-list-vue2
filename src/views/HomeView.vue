@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <!--// TODO: Filter by list-->
     <div class="list-actions main-wrapper">
       <div class="button-holder radius-and-shadow first-action">
         <div class="search-list-container radius-and-shadow">
@@ -23,21 +22,25 @@
         </div>
       </slide-y-up-transition>
     </div>
-    
+    <fade-transition class="popup-container">
+      <Popup v-show="showPopup" @clicked="hidePopup"></Popup>
+    </fade-transition>
   </div>
 </template>
 
 <script>
   import { SlideYUpTransition } from 'vue2-transitions'
+  import { FadeTransition  } from 'vue2-transitions'
   import AddList from '@/components/AddList.vue';
   import SearchList from '@/components/SearchList.vue';
   import TaskList from '@/components/TaskList.vue';
+  import Popup from '@/components/Popup.vue'
   import date from '../mixins/date'
 
   export default {
     mixins: [ date ],
     props: [  ],
-    components: { SearchList, TaskList, AddList, SlideYUpTransition }, 
+    components: { SearchList, TaskList, AddList, Popup, SlideYUpTransition, FadeTransition  }, 
     name: 'HomeView',
     data(){
       return{
@@ -54,7 +57,8 @@
           startDrag: this.saveStart,
           endDrag: this.saveEnd
         },
-        dragEventData: {startListId:'', startTaskIndex:'', endListId:'', endTaskIndex:''}
+        dragEventData: {startListId:'', startTaskIndex:'', endListId:'', endTaskIndex:''},
+        showPopup: false
       }
     },
     methods:{
@@ -62,7 +66,7 @@
         if(listName.replaceAll(' ', '')){
           this.createNewList(listName)
         } else{
-          alert('Fill the name')
+          this.showPopup = true
         }
       },
       createNewList(listName){
@@ -203,18 +207,21 @@
           }
         })
       },
+      hidePopup(){
+        this.showPopup = false
+      },      
       saveToStorage(){
         localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))
       }
     },
-    computed:{
-    
+    computed:{ 
+      
     },
     created(){
-    if(JSON.parse(localStorage.getItem('ListOfTaskLists'))){
-      this.allTaskLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
-    } 
-  },
+      if(JSON.parse(localStorage.getItem('ListOfTaskLists'))){
+        this.allTaskLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
+      }
+    },
   }
 </script>
 
