@@ -30,10 +30,10 @@
 <script>
     import { Container, Draggable } from "vue-smooth-dnd";
     import { CollapseTransition } from 'vue2-transitions'
-    import AddTask from '../taskList/AddTask.vue';
-    import Task from '../taskList/Task.vue';
-    import SearchTask from '../taskList/SearchTask.vue';
-    import Sorters from '../taskList/Sorters.vue';
+    import AddTask from './taskList/AddTask.vue';
+    import Task from './taskList/Task.vue';
+    import SearchTask from './taskList/SearchTask.vue';
+    import Sorters from './taskList/Sorters.vue';
 
     export default {
         props: [ 'thisList' ],
@@ -41,14 +41,17 @@
         name: 'TaskList',
         data(){
             return{
+                // Event handler for AddTask
                 addTaskHandlers: {
                     addNewTask: this.addNewTask
                 },
+                // Event handler for Task
                 taskHandlers: {
                     deleteTask: this.deleteTask,
                     taskNameChange: this.taskNameChange,
-                    checkChanged: this.checkChanged
+                    checkboxChanged: this.checkboxChanged
                 },
+                // Event handler for Sorters
                 sortersHandlers: {
                     showAll: this.showAll,
                     showDone: this.showDone,
@@ -62,24 +65,48 @@
             }
         },
         methods:{
+            /**
+             * Passes event up the chain
+             */
             addNewTask(eventData){
                 this.$emit('addNewTask', eventData)
             },
+            /**
+             * Passes event up the chain with an obj with listId and taskID
+             * @param {*} dateString task Id
+             */
             deleteTask(eventTaskId){
                 this.$emit('deleteTask', {listId: this.thisList.id, taskId: eventTaskId})
             },
+            /**
+             * Passes event up the chain with added list id in obj
+             * @param {*} eventData obj with listID, taskId and newName
+             */
             taskNameChange(eventData){
                 eventData.listId = this.thisList.id
                 this.$emit('taskNameChange', eventData)
             },
+            /**
+             * Passes event up the chain with an obj that has listId and searchContent(param)
+             * @param {*} searchContent String value from search form
+             */
             searchTask(searchContent){
                 const newData = { listId: this.thisList.id, lookFor: searchContent }
                 this.$emit('searchTask', newData)
             },
-            checkChanged(taskId){
+            /**
+             * Passes event up the chain with an obj that has listId and taskId(param)
+             * @param {*} taskId Id from task that checkbox changed 
+             */
+            checkboxChanged(taskId){
                const newData = { listId: this.thisList.id, taskId: taskId }
-               this.$emit('checkChanged', newData)
+               this.$emit('checkboxChanged', newData)
             },
+            /**
+             * If this is the source of the dragStart, call for event emition
+             * @param {*} list thisList
+             * @param {*} eventData dragStart $event
+             */
             dragStart(list, eventData){
                 const {payload, isSource} = eventData 
                 if(isSource){
@@ -88,6 +115,12 @@
                     this.emitStartDrag()
                 }
             },
+            /**
+             * If this is the source of the dragEnd and task has changed place, 
+             * call for event emition
+             * @param {*} list thisList
+             * @param {*} eventData dragEnd $event
+             */
             dragEnd(list, eventData){
                 const {removedIndex, addedIndex} = eventData 
                 if(list.id === this.startListId && removedIndex === addedIndex){
@@ -97,31 +130,51 @@
                     this.endTaskIndex = eventData.addedIndex
                     this.emitEndDrag()
                 }
-            },            
+            },
+            /**
+             * Generates the index of dragged task, for drag function
+             * @returns Index of dragged task
+             */
             getChildPayload(index){
                 return { index }
             },
+            /**
+             * Emit event with obg that has startListId and startTaskIndex
+             */
             emitStartDrag(){
                 const dragObj = {   startListId: this.startListId, 
                                     startTaskIndex :this.startTaskIndex}
                 this.$emit('startDrag',dragObj)
             },
+            /**
+             * Emit event with obg that has endListId and endTaskIndex
+             */
             emitEndDrag(){
                 const dragObj = {   endListId: this.endListId, 
                                     endTaskIndex :this.endTaskIndex}
                 this.$emit('endDrag',dragObj)
             },
+            /**
+             * Passes event up the chain with id of this list
+             */
             showAll(){
                 this.$emit('showAll', (this.thisList.id))
             },
+            /**
+             * Passes event up the chain with id of this list
+             */
             showDone(){
                 this.$emit('showDone', (this.thisList.id))
             },
+            /**
+             * Passes event up the chain with id of this list
+             */
             showNotDone(){
                 this.$emit('showNotDone', (this.thisList.id))
             }
         },
         computed:{
+            //computed name for show more or less button
             showTasks: function(){
                 if(this.thisList.showTasks){
                     return('Less...')
@@ -131,6 +184,7 @@
             }
         },
         created(){
+            // gives listName data a value based on thisList prop name
             this.listName = this.thisList.name
         }
     }

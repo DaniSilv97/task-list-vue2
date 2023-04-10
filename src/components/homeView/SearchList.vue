@@ -6,7 +6,7 @@
                 <option :value="list.name" :key="list.id">{{ list.name }}</option>
             </template>
         </select>
-        <button class="remove-default button" @click="doSelectList" >Select List</button>
+        <button class="remove-default button" @click="$emit('doSelectList', selectedList)" >Select List</button>
     </div>
 </template>
 
@@ -21,9 +21,7 @@
             }
         },
         methods:{
-            doSelectList(){
-                this.$emit('doSelectList', this.selectedList)
-            }
+
         },
         computed:{
         

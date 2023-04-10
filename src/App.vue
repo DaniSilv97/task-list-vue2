@@ -26,6 +26,7 @@
     
     },
     created(){
+      // sets base root var(--x) for themes
       this.root.style.setProperty('--blue', '#0087ff');
       this.root.style.setProperty('--hover', '#00e1ff');
       this.root.style.setProperty('--enoughTime', '#00d8ff');

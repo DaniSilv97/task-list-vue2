@@ -19,6 +19,9 @@
             }
         },
         methods:{
+            /**
+             * Emits event with string to look for in task names
+             */
             searchTask(){
                 this.$emit('searchTask', this.searchTaskText)
             }

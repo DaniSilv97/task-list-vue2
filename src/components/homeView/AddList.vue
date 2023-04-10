@@ -19,6 +19,9 @@
             }
         },
         methods:{
+            /**
+             * emits event with a name for a new list, resets field
+             */
             emitCreateList(){
                 this.$emit('createNewList', this.newTaskName)
                 this.newTaskName = ''

@@ -2,7 +2,7 @@
     <div  v-show="thisTask.isShown">
         <div class="task radius-and-shadow">
             <div class="check-and-name">
-                <input type="checkbox" class="checkbox remove-default" @click="checkChanged" v-model="thisTask.done">
+                <input type="checkbox" class="checkbox remove-default" @click="checkboxChanged" v-model="thisTask.done">
                 <input type="text" class="remove-default task-name" v-model="taskName" @change="taskNameChange">
             </div>
             <div class="button-holder actions radius-and-shadow">
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import date from '../../mixins/date'
+    import date from '../../../mixins/date'
 
     export default {
         mixins: [ date ] ,
@@ -28,17 +28,30 @@
             }
         },
         methods:{
+            /**
+             * Emits event with task ID
+             */
             deleteTask(){
                 this.$emit('deleteTask', this.thisTask.id)
             },
+            /**
+             * Emits event with obj with empty listID and filled taskId and newName
+             */
             taskNameChange(){
                 this.$emit('taskNameChange', {listId: '', taskId: this.thisTask.id, newName: this.taskName})
             },
-            checkChanged(){
-                this.$emit('checkChanged', this.thisTask.id)
+            /**
+             * Emits event with task ID when checkbox changed
+             */
+            checkboxChanged(){
+                this.$emit('checkboxChanged', this.thisTask.id)
             }
         },
         computed:{
+            /**
+             * Returns a color value based on how many days 'till due date
+             * @returns String:'color: var(--x)'
+             */
             colorTime: function(){
                 if(this.timeLeft < 0){
                     return('color: var(--noTime)')
@@ -52,7 +65,9 @@
             },
         },
         mounted(){
+            // Atribues a name to taskName data, based on prop name
             this.taskName = this.thisTask.name
+            // Gets the num of days between today and dueDate
             this.timeLeft = this.getTimeLeft(this.thisTask.date)
         }
     }

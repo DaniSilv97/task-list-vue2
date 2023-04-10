@@ -45,17 +45,24 @@
     data(){
       return{
         allTaskLists:[],
+        // Event handler for TaskList
         taskListEventHandlers : {
+          // TaskList
           showHideTasks: this.showHideTasks,
           deleteList: this.deleteList,
           listNameChange: this.listNameChange,
-          addNewTask: this.checkForTaskName,
-          deleteTask: this.deleteTask,
-          taskNameChange: this.taskNameChange,
-          searchTask: this.searchTask,
-          checkChanged: this.checkChanged,
           startDrag: this.saveStart,
           endDrag: this.saveEnd,
+
+          // AddTask
+          addNewTask: this.checkForTaskName,
+          // Task
+          deleteTask: this.deleteTask,
+          taskNameChange: this.taskNameChange,
+          checkboxChanged: this.checkboxChanged,
+          // SearchTask
+          searchTask: this.searchTask,
+          // Sorters
           showAll: this.showAll,
           showDone: this.showDone,
           showNotDone: this.showNotDone,
@@ -65,6 +72,10 @@
       }
     },
     methods:{
+      /**
+       *This function checks for a nonEmpty name for a list and calls for creation 
+       *@param listName The name of the list to check. 
+       */
       checkForName(listName){
         if(listName.replaceAll(' ', '')){
           this.createNewList(listName)
@@ -72,6 +83,12 @@
           this.showPopup = true
         }
       },
+      
+      /** 
+       *This function creates a new list with an id(from mixin), a name(param), and default values for isShown, showTasks, and tasks. 
+       *Then, it pushes the new list to the allTaskLists array and calls for save to storage. 
+       *@param listName {String} The name to give the new list.
+       */
       createNewList(listName){
         const newList = { id: this.todayAsId()+'11', 
                           name: listName, 
@@ -81,6 +98,10 @@
         this.allTaskLists.push(newList)
         this.saveToStorage()
       },
+      /**
+       *If list in allTaskLists match list(param) swap between hide and show, call for save
+       *@param list List obj
+       */
       showHideTasks(list){
         this.allTaskLists.forEach(element=>{
           if(element.id === list.id){
@@ -89,6 +110,11 @@
           }
         })
       },
+
+      /**
+       * Deletes list from allTaskLists based on list.id(param.id), call for save
+       * @param list List obj
+       */
       deleteList(list){
         this.allTaskLists.forEach(element=>{
           if(element.id === list.id){
@@ -97,6 +123,10 @@
           }
         })
       },
+      /**
+       * Based on eventData change the name of a list, call for save
+       * @param eventData object with litId and newName
+       */
       listNameChange(eventData){
         this.allTaskLists.forEach(element=>{
           if(element.id === eventData.listId){
@@ -105,6 +135,10 @@
           }
         })
       },
+      /**
+       *Checks for a nonEmpty name for a task and calls for creation 
+       *@param task task obj
+       */
       checkForTaskName(task){
         if(task.name.replaceAll(' ', '')){
           this.addNewTask(task)
@@ -112,6 +146,10 @@
           this.showPopup = true
         }
       },
+      /**
+       * Creates a task obj with id, name, date, done, isShown, based on eventData, add to array, call for save
+       * @param eventData obj with id name and date
+       */
       addNewTask(eventData){
         this.allTaskLists.forEach(element=>{
           if(element.id === eventData.id){
@@ -124,6 +162,10 @@
           }
         })
       },
+      /**
+       * Deletes task from list based on event data, call for save
+       * @param eventData obj with taskId 
+       */
       deleteTask(eventData){
         this.allTaskLists.forEach(list=>{
           list.tasks.forEach(task=>{
@@ -134,6 +176,10 @@
           })
         })
       },
+      /**
+       * Change the same of a task based on evnetData, call for save
+       * @param eventData obj with taskId and newName
+       */
       taskNameChange(eventData){
         this.allTaskLists.forEach(list=>{
           list.tasks.forEach(task=>{
@@ -144,8 +190,11 @@
           })
         })
       },
+      /**
+       * Shows task based on event data, hides the rest
+       * @param eventData obj with listId and lookFor
+       */
       searchTask(eventData){
-        console.log('Search: ',eventData)
         this.allTaskLists.forEach(element=>{
           if(element.id === eventData.listId){
             element.tasks.forEach(task=>{
@@ -158,12 +207,15 @@
           }
         })
       },
-      checkChanged(eventData){
+      /**
+       * If checkbox on eventData is changed, swap task isDone between true/false, call for save
+       * @param eventData obj with listId and taskId
+       */
+      checkboxChanged(eventData){
         this.allTaskLists.forEach(list=>{
           if(list.id === eventData.listId){
             list.tasks.forEach(task=>{
               if(task.id === eventData.taskId){
-                console.log(task)
                 task.done = !task.done
                 this.saveToStorage()
               }
@@ -171,8 +223,11 @@
           }
         })
       },
+      /**
+       * Based on param, show all lists or show a list, hide others
+       * @param listName name of list, if empty show all
+       */
       doSelectList(listName){
-        console.log(listName)
         if(!listName){
           this.allTaskLists.forEach(list=>{
             list.isShown = true
@@ -187,15 +242,26 @@
           })
         }
       },
+      /**
+       * Alters data to save drag start info
+       * @param eventData obj with startListId and startTaskIndex
+       */
       saveStart(eventData){
         this.dragEventData.startListId = eventData.startListId
         this.dragEventData.startTaskIndex = eventData.startTaskIndex
-      },  
+      },
+      /**
+       * Alters data to save drag end info
+       * @param eventData obj with endListId and endTaskIndex
+       */       
       saveEnd(eventData){
         this.dragEventData.endListId = eventData.endListId
         this.dragEventData.endTaskIndex = eventData.endTaskIndex
         this.doDrag()
       },
+      /**
+       * based on saved drag info, remove task from list, call for place
+       */
       doDrag(){
         this.allTaskLists.forEach(list=>{
           if(list.id === this.dragEventData.startListId){
@@ -204,6 +270,11 @@
           }
         })
       },
+      /**
+       * Places task into the desired task list based on the eventData. call for save
+       * @param {*} eventData this saved dragEventData
+       * @param {*} taskObj remove task obj in doDrag
+       */
       placeTask(eventData, taskObj){
         this.allTaskLists.forEach(list=>{
           if(list.id === eventData.endListId){
@@ -217,9 +288,16 @@
           }
         })
       },
+      /**
+       * hide alert popup
+       */
       hidePopup(){
         this.showPopup = false
       },
+      /**
+       * Make all tasks visible
+       * @param listId Id of list to sort
+       */
       showAll(listId){
         this.allTaskLists.forEach(list=>{
           if(list.id === listId){
@@ -229,6 +307,10 @@
           }
         })
       },
+      /**
+       * Make only done tasks visible
+       * @param listId Id of list to sort
+       */
       showDone(listId){
         this.allTaskLists.forEach(list=>{
           if(list.id === listId){
@@ -242,6 +324,10 @@
           }
         })
       },
+      /**
+       * Make only not done tasks visible
+       * @param listId Id of list to sort
+       */
       showNotDone(listId){
         this.allTaskLists.forEach(list=>{
           if(list.id === listId){
@@ -255,6 +341,9 @@
           }
         })
       },
+      /**
+       * save allTaskLists to local storage
+       */
       saveToStorage(){
         localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))
       }
@@ -263,9 +352,16 @@
       
     },
     created(){
+      // if exists, load local storage
       if(JSON.parse(localStorage.getItem('ListOfTaskLists'))){
         this.allTaskLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
       }
+      // makes sure all tasks are visible on load
+      this.allTaskLists.forEach(list=>{
+        list.tasks.forEach(task=>{
+          task.isShown = true
+        })
+      })
     },
   }
 </script>

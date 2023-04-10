@@ -25,6 +25,9 @@
             }
         },
         methods:{
+            /**
+             * save user name to storage
+             */
             changedUser(){
                 localStorage.setItem('userName', JSON.stringify(this.userName))
             }
@@ -33,6 +36,7 @@
         
         },
         created(){
+            // If it exists, load username from storage
             if(JSON.parse(localStorage.getItem('userName'))){
                 this.userName = JSON.parse(localStorage.getItem('userName')
             )}

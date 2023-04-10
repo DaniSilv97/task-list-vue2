@@ -26,6 +26,9 @@
             }
         },
         methods:{
+            /**
+             * triggers event with thisSwatch 
+             */
             setTheme(){
                     this.$emit('setTheme', this.thisSwatch)
                 }

@@ -31,6 +31,9 @@
             }
         },
         methods:{
+            /**
+             * sets root vars(--x) values based on costum selected colors
+             */
             setTheme(){
                 this.root.style.setProperty('--blue', this.mainColor);
                 this.root.style.setProperty('--hover', this.secColor);
@@ -42,6 +45,7 @@
         computed:{
         
         },
+        // sets colors based on root vars(--x)
         created(){
             let computedStyle = window.getComputedStyle(this.root)
             this.mainColor = String(computedStyle.getPropertyValue('--blue'))

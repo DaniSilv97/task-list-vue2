@@ -43,6 +43,9 @@
             }
         },
         methods:{
+            /**
+             * sets root vars(--x) values based on selected swatch
+             */
             setTheme(swatch){
                 const root = document.querySelector(':root');
                 root.style.setProperty('--blue', swatch.mainColor);

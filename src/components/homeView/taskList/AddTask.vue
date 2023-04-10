@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import date from '../../mixins/date'
+    import date from '../../../mixins/date'
 
     export default {
         mixins: [ date ],
@@ -26,6 +26,9 @@
             }
         },
         methods:{
+            /**
+             * Emits event with an obj with id, name and date
+             */
             addNewTask(){
                 this.$emit('addNewTask', {  id: this.thisList.id, 
                                             name: this.newTaskName, 
@@ -38,8 +41,8 @@
         
         },
         created(){
+            // Gets a yyyy-mm-dd to make default for input type date
             this.newTaskDate = this.tommorowForHTML()
-
         }
     }
 </script>
