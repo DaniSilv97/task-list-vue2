@@ -2,25 +2,27 @@
     <div class="task-list radius-and-shadow">
         <div class="list-container radius-and-shadow">
             <div class="title-and-button">
-                <input type="text" class="remove-default list-title" v-model="listName" @change="$emit('listNameChange', {listId: thisList.id, newName: listName})">
+                <input type="text" class="remove-default list-title" v-model="listName">
                 <div class="button-holder radius-and-shadow">
                     <button class="remove-default button" @click="$emit('deleteList', thisList.id)">Delete</button>
-                    <button class="remove-default button" @click="$emit('showHideTasks', thisList)">{{ showTasks }}</button>
+                    <button class="remove-default button" @click="showTasks = !showTasks">{{ showTasksComputed }}</button>
                 </div>
             </div>
             <collapse-transition>
-                <div v-show="thisList.showTasks" class="tasks-container radius-and-shadow">
-                    <SearchTask v-on:searchTask="searchTask"></SearchTask>
-                    <Sorters v-on="sortersHandlers"></Sorters>
+                <div v-show="showTasks" class="tasks-container radius-and-shadow">
+                    
+                    <SearchTask></SearchTask>
+                    <Sorters></Sorters>
+
                     <Container  group-name="dragContainers" 
                                 @drag-start="dragStart(thisList.index, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
                         <Draggable v-for="task in thisList.tasks" :key="task.id">
-                            <Task :thisTask="task" v-on="taskHandlers"></Task>
+                            <Task :thisTask="task"></Task>
                         </Draggable>
                     </Container>
-                    <AddTask :thisList="thisList" v-on="addTaskHandlers"></AddTask>
+                    <AddTask :thisList="thisList" @addNewTask="newTaskEvent"></AddTask>
                 </div>
             </collapse-transition>
         </div>  
@@ -41,22 +43,20 @@
         name: 'TaskList',
         data(){
             return{
-                // Event handler for AddTask
-                addTaskHandlers: {
-                    addNewTask: this.addNewTask
-                },
-                // Event handler for Task
-                taskHandlers: {
-                    deleteTask: this.deleteTask,
-                    taskNameChange: this.taskNameChange,
-                    checkboxChanged: this.checkboxChanged
-                },
-                // Event handler for Sorters
-                sortersHandlers: {
-                    showAll: this.showAll,
-                    showDone: this.showDone,
-                    showNotDone: this.showNotDone,
-                },
+                // // Event handler for AddTask
+                // // Event handler for Task
+                // taskHandlers: {
+                //     deleteTask: this.deleteTask,
+                //     taskNameChange: this.taskNameChange,
+                //     checkboxChanged: this.checkboxChanged
+                // },
+                // // Event handler for Sorters
+                // sortersHandlers: {
+                //     showAll: this.showAll,
+                //     showDone: this.showDone,
+                //     showNotDone: this.showNotDone,
+                // },
+                showTasks: true,
                 listName: '',
                 startListId:'', 
                 startTaskIndex:'', 
@@ -65,43 +65,67 @@
             }
         },
         methods:{
-            /**
-             * Passes event up the chain
-             */
-            addNewTask(eventData){
-                this.$emit('addNewTask', eventData)
+            newTaskEvent(data){
+                this.checkTaskName(data)
             },
-            /**
-             * Passes event up the chain with an obj with listId and taskID
-             * @param {*} dateString task Id
-             */
-            deleteTask(eventTaskId){
-                this.$emit('deleteTask', {listId: this.thisList.id, taskId: eventTaskId})
+            checkTaskName(data){
+                const taskName = data.name.replaceAll(' ', '')
+                if(taskName){
+                    this.createNewTaskObj(data)
+                } else{
+                    //this.$emit('showPopup')
+                }
             },
-            /**
-             * Passes event up the chain with added list id in obj
-             * @param {*} eventData obj with listID, taskId and newName
-             */
-            taskNameChange(eventData){
-                eventData.listId = this.thisList.id
-                this.$emit('taskNameChange', eventData)
+            createNewTaskObj(data){
+                const newTask = {
+                    id: this.todayAsId(),
+                    name: newListName,
+                    type: 'list',
+                    tasks: [],
+                }
+                this.addList(newList)
             },
-            /**
-             * Passes event up the chain with an obj that has listId and searchContent(param)
-             * @param {*} searchContent String value from search form
-             */
-            searchTask(searchContent){
-                const newData = { listId: this.thisList.id, lookFor: searchContent }
-                this.$emit('searchTask', newData)
+            addList(listObj){
+                this.storageLists.push(listObj)
+                this.saveToStorage()
             },
-            /**
-             * Passes event up the chain with an obj that has listId and taskId(param)
-             * @param {*} taskId Id from task that checkbox changed 
-             */
-            checkboxChanged(taskId){
-               const newData = { listId: this.thisList.id, taskId: taskId }
-               this.$emit('checkboxChanged', newData)
-            },
+            // /**
+            //  * Passes event up the chain
+            //  */
+            // addNewTask(eventData){
+            //     this.$emit('addNewTask', eventData)
+            // },
+            // /**
+            //  * Passes event up the chain with an obj with listId and taskID
+            //  * @param {*} dateString task Id
+            //  */
+            // deleteTask(eventTaskId){
+            //     this.$emit('deleteTask', {listId: this.thisList.id, taskId: eventTaskId})
+            // },
+            // /**
+            //  * Passes event up the chain with added list id in obj
+            //  * @param {*} eventData obj with listID, taskId and newName
+            //  */
+            // taskNameChange(eventData){
+            //     eventData.listId = this.thisList.id
+            //     this.$emit('taskNameChange', eventData)
+            // },
+            // /**
+            //  * Passes event up the chain with an obj that has listId and searchContent(param)
+            //  * @param {*} searchContent String value from search form
+            //  */
+            // searchTask(searchContent){
+            //     const newData = { listId: this.thisList.id, lookFor: searchContent }
+            //     this.$emit('searchTask', newData)
+            // },
+            // /**
+            //  * Passes event up the chain with an obj that has listId and taskId(param)
+            //  * @param {*} taskId Id from task that checkbox changed 
+            //  */
+            // checkboxChanged(taskId){
+            //    const newData = { listId: this.thisList.id, taskId: taskId }
+            //    this.$emit('checkboxChanged', newData)
+            // },
             /**
              * If this is the source of the dragStart, call for event emition
              * @param {*} list thisList
@@ -154,29 +178,29 @@
                                     endTaskIndex :this.endTaskIndex}
                 this.$emit('endDrag',dragObj)
             },
-            /**
-             * Passes event up the chain with id of this list
-             */
-            showAll(){
-                this.$emit('showAll', (this.thisList.id))
-            },
-            /**
-             * Passes event up the chain with id of this list
-             */
-            showDone(){
-                this.$emit('showDone', (this.thisList.id))
-            },
-            /**
-             * Passes event up the chain with id of this list
-             */
-            showNotDone(){
-                this.$emit('showNotDone', (this.thisList.id))
-            }
+            // /**
+            //  * Passes event up the chain with id of this list
+            //  */
+            // showAll(){
+            //     this.$emit('showAll', (this.thisList.id))
+            // },
+            // /**
+            //  * Passes event up the chain with id of this list
+            //  */
+            // showDone(){
+            //     this.$emit('showDone', (this.thisList.id))
+            // },
+            // /**
+            //  * Passes event up the chain with id of this list
+            //  */
+            // showNotDone(){
+            //     this.$emit('showNotDone', (this.thisList.id))
+            // }
         },
         computed:{
             //computed name for show more or less button
-            showTasks: function(){
-                if(this.thisList.showTasks){
+            showTasksComputed: function(){
+                if(this.showTasks){
                     return('Less...')
                 } else{
                     return('More...')

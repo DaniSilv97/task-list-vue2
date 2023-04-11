@@ -16,9 +16,7 @@
         <div v-show="storageLists.length" class="main-wrapper">
             <slide-y-up-transition group class="lists-container">
                 <div v-for="list in storageLists" :key="list.id">
-                    <div v-show="list.isShown">
-                        <TaskList :thisList="list" @deleteList="deleteListEvent"></TaskList>
-                    </div>
+                    <TaskList :thisList="list" @deleteList="deleteListEvent"></TaskList>
                 </div>
             </slide-y-up-transition>
         </div>
@@ -61,8 +59,6 @@
                     name: newListName,
                     type: 'list',
                     tasks: [],
-                    isShown: true,
-                    showTasks: true,
                 }
                 this.addList(newList)
             },
