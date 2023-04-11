@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AllLists :allTaskListsProp="allTaskLists" @updateAllLists="updateAllLists"></AllLists>
+    <AllLists></AllLists>
     <fade-transition class="popup-container">
       <Popup v-show="showPopup" @clicked="hidePopup"></Popup>
     </fade-transition>
@@ -20,7 +20,6 @@
     name: 'HomeView',
     data(){
       return{
-        allTaskLists:[ ],
         // // Event handler for TaskList
         // taskListEventHandlers : {
         //   // TaskList
@@ -48,9 +47,6 @@
       }
     },
     methods:{
-      updateAllLists(){
-        this.allTaskLists = this.loadStorage()
-      },
       // /**
       //  *This function checks for a nonEmpty name for a list and calls for creation 
       //  *@param listName The name of the list to check. 

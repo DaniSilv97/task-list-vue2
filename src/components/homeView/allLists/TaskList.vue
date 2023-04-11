@@ -4,7 +4,7 @@
             <div class="title-and-button">
                 <input type="text" class="remove-default list-title" v-model="listName" @change="$emit('listNameChange', {listId: thisList.id, newName: listName})">
                 <div class="button-holder radius-and-shadow">
-                    <button class="remove-default button" @click="$emit('deleteList', thisList)">Delete</button>
+                    <button class="remove-default button" @click="$emit('deleteList', thisList.id)">Delete</button>
                     <button class="remove-default button" @click="$emit('showHideTasks', thisList)">{{ showTasks }}</button>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <SearchTask v-on:searchTask="searchTask"></SearchTask>
                     <Sorters v-on="sortersHandlers"></Sorters>
                     <Container  group-name="dragContainers" 
-                                @drag-start="dragStart(thisList, $event)" 
+                                @drag-start="dragStart(thisList.index, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
                         <Draggable v-for="task in thisList.tasks" :key="task.id">

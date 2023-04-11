@@ -3,7 +3,7 @@
         <div class="list-actions main-wrapper">
             <div class="button-holder radius-and-shadow first-action">
                 <div class="search-list-container radius-and-shadow">
-                    <SearchList :allTaskListsProp="allTaskListsProp"></SearchList>
+                    <SearchList :storageLists="storageLists"></SearchList>
                 </div>
             </div>
             <div class="button-holder radius-and-shadow second-action">
@@ -13,11 +13,11 @@
             </div>
         </div>
 
-        <div v-show="allTaskListsProp.length" class="main-wrapper">
+        <div v-show="storageLists.length" class="main-wrapper">
             <slide-y-up-transition group class="lists-container">
-                <div v-for="list in allTaskListsProp" :key="list.id">
+                <div v-for="list in storageLists" :key="list.id">
                     <div v-show="list.isShown">
-                        <TaskList :thisList="list"></TaskList>
+                        <TaskList :thisList="list" @deleteList="deleteListEvent"></TaskList>
                     </div>
                 </div>
             </slide-y-up-transition>
@@ -35,41 +35,46 @@
 
     export default {
         mixins: [ storage, date ],
-        props: [ 'allTaskListsProp' ],
+        props: [  ],
         components: { SearchList, TaskList, AddList, SlideYUpTransition }, 
         name: 'allLists',
         data(){
             return{
-            
+
             }
         },
         methods:{
-            newListEvent(text){
-                this.checkListName(text)
+            newListEvent(newListName){
+                this.checkListName(newListName)
             },
-            checkListName(text){
-                const newListName = text.replaceAll(' ', '')
-                if(newListName){
-                    this.createNewListObj(text)
+            checkListName(newListName){
+                const listName = newListName.replaceAll(' ', '')
+                if(listName){
+                    this.createNewListObj(newListName)
                 } else{
                     //TODO alert fill form
                 }
             },
-            createNewListObj(text){
+            createNewListObj(newListName){
                 const newList = {
                     id: this.todayAsId(),
-                    name: text,
-                    index: 0,
+                    name: newListName,
+                    type: 'list',
                     tasks: [],
                     isShown: true,
-                    showTasks: true, 
+                    showTasks: true,
                 }
                 this.addList(newList)
-                this.emitUpdatedAllLists()
             },
-            emitUpdatedAllLists(){
-                this.$emit('updateAllLists')
+            addList(listObj){
+                this.storageLists.push(listObj)
+                this.saveToStorage()
             },
+            //
+            deleteListEvent(listId){
+                this.storageLists = this.storageLists.filter(element => element.id !== listId)
+                this.saveToStorage()
+            }
         },
         computed:{
         
