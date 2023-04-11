@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AllLists></AllLists>
+    <AllLists @showPopup="showPopup = true"></AllLists>
     <fade-transition class="popup-container">
       <Popup v-show="showPopup" @clicked="hidePopup"></Popup>
     </fade-transition>

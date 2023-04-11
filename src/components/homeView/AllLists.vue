@@ -52,7 +52,7 @@
                 if(listName){
                     this.createNewListObj(newListName)
                 } else{
-                    //TODO alert fill form
+                    this.$emit('showPopup')
                 }
             },
             createNewListObj(newListName){
