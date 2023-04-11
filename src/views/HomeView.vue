@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AllLists :allTaskLists="allTaskLists"></AllLists>
+    <AllLists :allTaskListsProp="allTaskLists" @updateAllLists="updateAllLists"></AllLists>
     <fade-transition class="popup-container">
       <Popup v-show="showPopup" @clicked="hidePopup"></Popup>
     </fade-transition>
@@ -12,15 +12,15 @@
   import AllLists from '../components/homeView/AllLists.vue'
   import Popup from '../components/homeView/Popup.vue'
   import date from '../mixins/date'
+  import storage from '../mixins/storage'
 
   export default {
-    mixins: [ date ],
-    props: [  ],
+    mixins: [ date, storage ],
     components: { AllLists, Popup, FadeTransition  }, 
     name: 'HomeView',
     data(){
       return{
-        allTaskLists:[],
+        allTaskLists:[ ],
         // // Event handler for TaskList
         // taskListEventHandlers : {
         //   // TaskList
@@ -48,6 +48,9 @@
       }
     },
     methods:{
+      updateAllLists(){
+        this.allTaskLists = this.loadStorage()
+      },
       // /**
       //  *This function checks for a nonEmpty name for a list and calls for creation 
       //  *@param listName The name of the list to check. 
@@ -316,9 +319,6 @@
       //   localStorage.setItem('ListOfTaskLists', JSON.stringify(this.allTaskLists))
       // }
     },
-    computed:{ 
-      
-    },
     created(){
 /*       // if exists, load local storage
       if(JSON.parse(localStorage.getItem('ListOfTaskLists'))){
@@ -330,6 +330,7 @@
           task.isShown = true
         })
       }) */
+      this.allTaskLists = this.loadStorage()
     },
   }
 </script>

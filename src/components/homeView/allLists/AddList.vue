@@ -4,7 +4,7 @@
                 class="list-name input-text remove-default"
                 placeholder="e.g. Chores"
                 v-model="newTaskName">
-        <button class="remove-default button" @click="emitCreateList">Add List</button>
+        <button class="remove-default button" @click="newList">Add List</button>
     </div>
 </template>
 
@@ -22,8 +22,8 @@
             /**
              * emits event with a name for a new list, resets field
              */
-            emitCreateList(){
-                this.$emit('createNewList', this.newTaskName)
+            newList(){
+                this.$emit('newList', this.newTaskName)
                 this.newTaskName = ''
             }
         },

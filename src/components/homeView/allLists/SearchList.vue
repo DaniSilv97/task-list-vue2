@@ -2,7 +2,7 @@
     <div class="search-list">
         <select class="list-search" v-model="selectedList">
             <option value=""> Show all </option>
-            <template v-for="list in allTaskLists">
+            <template v-for="list in allTaskListsProp">
                 <option :value="list.name" :key="list.id">{{ list.name }}</option>
             </template>
         </select>
@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        props: [ 'allTaskLists' ],
+        props: [ 'allTaskListsProp' ],
         components: {  }, 
         name: 'SearchList',
         data(){
