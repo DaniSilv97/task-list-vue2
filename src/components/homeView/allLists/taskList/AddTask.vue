@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import date from '../../../mixins/date'
+    import date from '../../../../mixins/date'
 
     export default {
         mixins: [ date ],
