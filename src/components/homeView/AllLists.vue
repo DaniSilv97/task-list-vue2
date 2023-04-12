@@ -71,17 +71,17 @@
             addList(listObj){                                       //
                 this.allTaskLists[listObj.id] = listObj             //
                 this.updateEntries()                                //
-                this.addListToStorage(listObj)                      //
+                this.saveListToStorage(listObj)                     //
             },                                                      //
             // -------------------------------------------------- ////        
             
-            // Delete list ------------------------------------------------------------------ ////
-            deleteListEvent(listId){                                                            //
-                delete this.allTaskLists[listId]                                                //
-                this.updateEntries()                                                            //
-                this.deleteListToStorage(listId)                                                //
-            },                                                                                  //
-            // ------------------------------------------------------------------------------ ////
+            // Delete list -------------------------------------- ////
+            deleteListEvent(listId){                                //
+                delete this.allTaskLists[listId]                    //
+                this.updateEntries()                                //
+                this.deleteListToStorage(listId)                    //
+            },                                                      //
+            // -------------------------------------------------- ////
 
             updateEntries(){
                 this.allTaskListsEntries = Object.entries(this.allTaskLists)

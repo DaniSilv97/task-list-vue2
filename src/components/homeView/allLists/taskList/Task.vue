@@ -43,7 +43,7 @@
                 this.saveChange()
             },
             saveChange(){
-                this.taskChangedToStorage(this.taskData)
+                this.saveTaskToStorage(this.taskData)
             },  
         },
         computed:{

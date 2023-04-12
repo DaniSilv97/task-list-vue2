@@ -85,7 +85,7 @@
             addTask(taskObj){
                 this.listData.tasks[taskObj.id] = taskObj
                 this.updateEntries()
-                this.addTaskToStorage(taskObj)
+                this.saveTaskToStorage(taskObj)
             },
 
             //
@@ -98,7 +98,7 @@
             
             changeName(){
                 this.listData.name = this.listName
-                this.listChangedToStorage(this.listData)
+                this.saveListToStorage(this.listData)
             },
 
             updateEntries(){

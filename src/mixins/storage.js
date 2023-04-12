@@ -5,6 +5,7 @@ export default{
         }
     },
     methods:{
+        // Local Storage --------------------------------------
         loadLocalStorage() {
             if(JSON.parse(localStorage.getItem('ListOfTaskLists'))) {
                 this.storageLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
@@ -16,9 +17,10 @@ export default{
         saveToLocalStorage() {
             localStorage.setItem('ListOfTaskLists', JSON.stringify(this.storageLists))
         },
+        //
 
-        // Task lists
-        addListToStorage(listObj){
+        // Task lists --------------------------------------
+        saveListToStorage(listObj){
             this.loadLocalStorage()
             this.storageLists[listObj.id] = listObj
             this.saveToLocalStorage()
@@ -28,15 +30,10 @@ export default{
             delete this.storageLists[listId]
             this.saveToLocalStorage()
         },
-        listChangedToStorage(listObj){
-            this.loadLocalStorage()
-            this.storageLists[listObj.id] = listObj
-            this.saveToLocalStorage()
-        },
         //
 
-        // Tasks
-        addTaskToStorage(taskObj){
+        // Tasks --------------------------------------
+        saveTaskToStorage(taskObj){
             this.loadLocalStorage()
             this.storageLists[taskObj.listId].tasks[taskObj.id] = taskObj
             this.saveToLocalStorage()
@@ -46,10 +43,6 @@ export default{
             delete this.storageLists[taskObj.listId].tasks[taskObj.id]
             this.saveToLocalStorage()
         },
-        taskChangedToStorage(taskObj){
-            this.loadLocalStorage()
-            this.storageLists[taskObj.listId].tasks[taskObj.id] = taskObj
-            this.saveToLocalStorage()
-        }
+        //
     },
 }
