@@ -30,7 +30,6 @@
              * Emits event with an obj with id, name and date
              */
             newTask(){
-                console.log('1')
                 this.$emit('newTask', {  listId: this.thisList.id, 
                                             name: this.newTaskName, 
                                             date: this.newTaskDate

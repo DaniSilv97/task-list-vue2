@@ -24,6 +24,7 @@
         name: 'Task',
         data(){
             return{
+                taskData: {},
                 taskName: '',
                 timeLeft: 0,
                 isShown: true,
@@ -33,8 +34,14 @@
             deleteTask(){
                 this.$emit('deleteTask', this.thisTask)
             },
-            checkboxChanged(){},
-            taskNameChange(){},
+            taskNameChange(){
+                this.taskData.name = this.taskName
+                this.saveChange()
+            },
+            saveChange(){
+                this.changeTaskNameToStorage(this.taskData)
+            },
+            checkboxChanged(){},  
         },
         computed:{
             /**
@@ -53,9 +60,10 @@
                 }
             },
         },
-        mounted(){
-            // Atribues a name to taskName data, based on prop name
-            this.taskName = this.thisTask.name
+        created(){
+            this.taskData = JSON.parse(JSON.stringify(this.thisTask))
+            this.taskName = this.taskData.name
+
             // Gets the num of days between today and dueDate
             this.timeLeft = this.getTimeLeft(this.thisTask.date)
         }

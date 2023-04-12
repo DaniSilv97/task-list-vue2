@@ -40,6 +40,11 @@ export default{
             this.loadLocalStorage()
             delete this.storageLists[taskObj.listId].tasks[taskObj.id]
             this.saveToLocalStorage()
+        },
+        changeTaskNameToStorage(taskObj){
+            this.loadLocalStorage()
+            this.storageLists[taskObj.listId].tasks[taskObj.id] = taskObj
+            this.saveToLocalStorage()
         }
     },
 }
