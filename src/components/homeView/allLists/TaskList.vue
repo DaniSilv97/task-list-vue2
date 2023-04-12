@@ -2,7 +2,7 @@
     <div class="task-list radius-and-shadow">
         <div class="list-container radius-and-shadow">
             <div class="title-and-button">
-                <input type="text" class="remove-default list-title" v-model="listName">
+                <input type="text" class="remove-default list-title" v-model="listData.name">
                 <div class="button-holder radius-and-shadow">
                     <button class="remove-default button" @click="$emit('deleteList', thisList.id)">Delete</button>
                     <button class="remove-default button" @click="showTasks = !showTasks">{{ showTasksComputed }}</button>
@@ -18,8 +18,8 @@
                                 @drag-start="dragStart(thisList.index, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
-                        <Draggable v-for="task in thisList.tasks" :key="task.id">
-                            <Task :thisTask="task"></Task>
+                        <Draggable v-for="task in listData.tasks" :key="task.id">
+                            <Task :thisTask="task" v-on="taskEventHandlers"></Task>
                         </Draggable>
                     </Container>
                     <AddTask :thisList="thisList" @addNewTask="newTaskEvent"></AddTask>
@@ -36,13 +36,17 @@
     import Task from './taskList/Task.vue';
     import SearchTask from './taskList/SearchTask.vue';
     import Sorters from './taskList/Sorters.vue';
+    import date from '../../../mixins/date'
+    import storage from '../../../mixins/storage'
 
     export default {
+        mixins: [ date, storage ],
         props: [ 'thisList' ],
         components: { Task, AddTask, SearchTask, Sorters, CollapseTransition, Container, Draggable }, 
         name: 'TaskList',
         data(){
             return{
+                listData: {},
                 // // Event handler for AddTask
                 // // Event handler for Task
                 // taskHandlers: {
@@ -57,37 +61,61 @@
                 //     showNotDone: this.showNotDone,
                 // },
                 showTasks: true,
-                listName: '',
                 startListId:'', 
                 startTaskIndex:'', 
                 endListId:'', 
-                endTaskIndex:''
+                endTaskIndex:'',
+                taskEventHandlers: {
+                    deleteTask: this.deleteTask
+                }
             }
         },
         methods:{
+            //
             newTaskEvent(data){
                 this.checkTaskName(data)
             },
             checkTaskName(data){
                 const taskName = data.name.replaceAll(' ', '')
                 if(taskName){
-                    this.createNewTaskObj(data)
+                    this.createTaskObj(data)
                 } else{
                     //this.$emit('showPopup')
                 }
             },
-            createNewTaskObj(data){
+            createTaskObj(data){
                 const newTask = {
                     id: this.todayAsId(),
-                    name: newListName,
-                    type: 'list',
-                    tasks: [],
+                    name: data.name,
+                    type: 'task',
+                    date: data.date,
+                    done: false,
+                    listId: data.listId,
                 }
-                this.addList(newList)
+                this.addTask(newTask)
             },
-            addList(listObj){
-                this.storageLists.push(listObj)
+            addTask(taskObj){
+                this.storageLists.forEach(list => {
+                    if(list.id === taskObj.listId){
+                        list.tasks.push(taskObj)
+                    }
+                })
                 this.saveToStorage()
+            },
+
+            //
+
+            deleteTask(taskObj){
+                this.storageLists.forEach(list => {
+                    if(list.id === taskObj.listId){
+                        list.tasks.forEach(task=>{
+                            if(task.id === taskObj.id){
+                                list.tasks.splice(list.tasks.indexOf(task), 1)   
+                                this.saveToStorage()
+                            }
+                        })
+                    }
+                })
             },
             // /**
             //  * Passes event up the chain
@@ -205,11 +233,14 @@
                 } else{
                     return('More...')
                 }
-            }
+            },
         },
         created(){
-            // gives listName data a value based on thisList prop name
-            this.listName = this.thisList.name
+            this.storageLists.forEach(list=>{
+                if(list.id === this.thisList.id){
+                    this.listData = list
+                }
+            })
         }
     }
 </script>

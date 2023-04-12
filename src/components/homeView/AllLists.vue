@@ -42,35 +42,39 @@
             }
         },
         methods:{
-            newListEvent(newListName){
-                this.checkListName(newListName)
-            },
-            checkListName(newListName){
-                const listName = newListName.replaceAll(' ', '')
-                if(listName){
-                    this.createNewListObj(newListName)
-                } else{
-                    this.$emit('showPopup')
-                }
-            },
-            createNewListObj(newListName){
-                const newList = {
-                    id: this.todayAsId(),
-                    name: newListName,
-                    type: 'list',
-                    tasks: [],
-                }
-                this.addList(newList)
-            },
-            addList(listObj){
-                this.storageLists.push(listObj)
-                this.saveToStorage()
-            },
-            //
-            deleteListEvent(listId){
-                this.storageLists = this.storageLists.filter(element => element.id !== listId)
-                this.saveToStorage()
-            }
+            // Add new List ------------------------------------- ////
+            newListEvent(newListName){                              //
+                this.checkListName(newListName)                     //
+            },                                                      //
+            checkListName(newListName){                             //
+                const listName = newListName.replaceAll(' ', '')    //
+                if(listName){                                       //
+                    this.createListObj(newListName)              //
+                } else{                                             //
+                    this.$emit('showPopup')                         //
+                }                                                   //
+            },                                                      //
+            createListObj(newListName){                          //
+                const newList = {                                   //
+                    id: this.todayAsId(),                           //
+                    name: newListName,                              //
+                    type: 'list',                                   //
+                    tasks: [],                                      //
+                }                                                   //
+                this.addList(newList)                               //
+            },                                                      //
+            addList(listObj){                                       //
+                this.storageLists.push(listObj)                     //
+                this.saveToStorage()                                //
+            },                                                      //
+            // -------------------------------------------------- ////        
+            
+            // Delete list ------------------------------------------------------------------ ////
+            deleteListEvent(listId){                                                            //
+                this.storageLists = this.storageLists.filter(element => element.id !== listId)  //
+                this.saveToStorage()                                                            //
+            }                                                                                   //
+            // ------------------------------------------------------------------------------ ////
         },
         computed:{
         

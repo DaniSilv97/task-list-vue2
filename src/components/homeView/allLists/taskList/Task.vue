@@ -1,5 +1,5 @@
 <template>
-    <div  v-show="thisTask.isShown">
+    <div  v-show="isShown">
         <div class="task radius-and-shadow">
             <div class="check-and-name">
                 <input type="checkbox" class="checkbox remove-default" @click="checkboxChanged" v-model="thisTask.done">
@@ -15,30 +15,41 @@
 
 <script>
     import date from '../../../../mixins/date'
+    import storage from '../../../../mixins/storage'
 
     export default {
-        mixins: [ date ] ,
+        mixins: [ date, storage ] ,
         props: [ 'thisTask' ],
         components: {  }, 
         name: 'Task',
         data(){
             return{
                 taskName: '',
-                timeLeft: 0
+                timeLeft: 0,
+                isShown: true,
             }
         },
         methods:{
             /**
-             * Emits event with task ID
+             * Emits delete event sending task Obj
              */
             deleteTask(){
-                this.$emit('deleteTask', this.thisTask.id)
+                this.$emit('deleteTask', this.thisTask)
             },
             /**
              * Emits event with obj with empty listID and filled taskId and newName
              */
             taskNameChange(){
-                this.$emit('taskNameChange', {listId: '', taskId: this.thisTask.id, newName: this.taskName})
+                this.storageLists.forEach(list=>{
+                    if(list.id === this.thisTask.listId){
+                        list.tasks.forEach(task=>{
+                            if(task.id === this.thisTask.id){
+                                task.name = this.taskName
+                                this.saveToStorage()
+                            }
+                        })
+                    }
+                })
             },
             /**
              * Emits event with task ID when checkbox changed

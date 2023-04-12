@@ -30,7 +30,7 @@
              * Emits event with an obj with id, name and date
              */
             addNewTask(){
-                this.$emit('addNewTask', {  id: this.thisList.id, 
+                this.$emit('addNewTask', {  listId: this.thisList.id, 
                                             name: this.newTaskName, 
                                             date: this.newTaskDate
                                          })
