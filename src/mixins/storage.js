@@ -28,6 +28,11 @@ export default{
             delete this.storageLists[listId]
             this.saveToLocalStorage()
         },
+        listChangedToStorage(listObj){
+            this.loadLocalStorage()
+            this.storageLists[listObj.id] = listObj
+            this.saveToLocalStorage()
+        },
         //
 
         // Tasks

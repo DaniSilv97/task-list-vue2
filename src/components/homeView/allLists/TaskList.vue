@@ -2,7 +2,7 @@
     <div class="task-list radius-and-shadow">
         <div class="list-container radius-and-shadow">
             <div class="title-and-button">
-                <input type="text" class="remove-default list-title" v-model="listData.name">
+                <input type="text" class="remove-default list-title" v-model="listName" @change="changeName">
                 <div class="button-holder radius-and-shadow">
                     <button class="remove-default button" @click="$emit('deleteList', thisList.id)">Delete</button>
                     <button class="remove-default button" @click="showTasks = !showTasks">{{ showTasksComputed }}</button>
@@ -47,6 +47,7 @@
         data(){
             return{
                 listData: {},
+                listName: '',
                 allTasksEntries: [],
                 showTasks: true,
 
@@ -93,6 +94,11 @@
                 delete this.listData.tasks[taskObj.id]
                 this.updateEntries()
                 this.deleteTaskToStorage(taskObj)
+            },
+            
+            changeName(){
+                this.listData.name = this.listName
+                this.listChangedToStorage(this.listData)
             },
 
             updateEntries(){
@@ -165,6 +171,7 @@
         },
         created(){
             this.listData = JSON.parse(JSON.stringify(this.thisList))
+            this.listName = this.listData.name
             this.updateEntries()
         }
     }
