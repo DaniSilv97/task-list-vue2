@@ -30,33 +30,7 @@
             }
         },
         methods:{
-            /**
-             * Emits delete event sending task Obj
-             */
-            deleteTask(){
-                this.$emit('deleteTask', this.thisTask)
-            },
-            /**
-             * Emits event with obj with empty listID and filled taskId and newName
-             */
-            taskNameChange(){
-                this.storageLists.forEach(list=>{
-                    if(list.id === this.thisTask.listId){
-                        list.tasks.forEach(task=>{
-                            if(task.id === this.thisTask.id){
-                                task.name = this.taskName
-                                this.saveToStorage()
-                            }
-                        })
-                    }
-                })
-            },
-            /**
-             * Emits event with task ID when checkbox changed
-             */
-            checkboxChanged(){
-                this.$emit('checkboxChanged', this.thisTask.id)
-            }
+
         },
         computed:{
             /**

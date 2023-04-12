@@ -100,7 +100,6 @@
                         list.tasks.push(taskObj)
                     }
                 })
-                this.saveToStorage()
             },
 
             //
@@ -111,7 +110,6 @@
                         list.tasks.forEach(task=>{
                             if(task.id === taskObj.id){
                                 list.tasks.splice(list.tasks.indexOf(task), 1)   
-                                this.saveToStorage()
                             }
                         })
                     }

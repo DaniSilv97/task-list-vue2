@@ -3,7 +3,7 @@
         <div class="list-actions main-wrapper">
             <div class="button-holder radius-and-shadow first-action">
                 <div class="search-list-container radius-and-shadow">
-                    <SearchList :storageLists="storageLists"></SearchList>
+                    <SearchList :storageLists="allTaskLists"></SearchList>
                 </div>
             </div>
             <div class="button-holder radius-and-shadow second-action">
@@ -13,9 +13,9 @@
             </div>
         </div>
 
-        <div v-show="storageLists.length" class="main-wrapper">
+        <div v-show="Object.keys(allTaskLists).length" class="main-wrapper">
             <slide-y-up-transition group class="lists-container">
-                <div v-for="list in storageLists" :key="list.id">
+                <div v-for="list in allTaskLists" :key="list.id">
                     <TaskList :thisList="list" @deleteList="deleteListEvent"></TaskList>
                 </div>
             </slide-y-up-transition>
@@ -38,7 +38,7 @@
         name: 'allLists',
         data(){
             return{
-
+                allTaskLists: {}
             }
         },
         methods:{
@@ -49,12 +49,12 @@
             checkListName(newListName){                             //
                 const listName = newListName.replaceAll(' ', '')    //
                 if(listName){                                       //
-                    this.createListObj(newListName)              //
+                    this.createListObj(newListName)                 //
                 } else{                                             //
                     this.$emit('showPopup')                         //
                 }                                                   //
             },                                                      //
-            createListObj(newListName){                          //
+            createListObj(newListName){                             //
                 const newList = {                                   //
                     id: this.todayAsId(),                           //
                     name: newListName,                              //
@@ -64,8 +64,7 @@
                 this.addList(newList)                               //
             },                                                      //
             addList(listObj){                                       //
-                this.storageLists.push(listObj)                     //
-                this.saveToStorage()                                //
+                this.allTaskLists[listObj.id] = listObj
             },                                                      //
             // -------------------------------------------------- ////        
             
