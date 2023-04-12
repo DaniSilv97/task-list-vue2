@@ -95,17 +95,17 @@
                 this.addTask(newTask)
             },
             addTask(taskObj){
-                this.storageLists.forEach(list => {
+                /* this.storageLists.forEach(list => {
                     if(list.id === taskObj.listId){
                         list.tasks.push(taskObj)
                     }
-                })
+                }) */
             },
 
             //
 
             deleteTask(taskObj){
-                this.storageLists.forEach(list => {
+                /* this.storageLists.forEach(list => {
                     if(list.id === taskObj.listId){
                         list.tasks.forEach(task=>{
                             if(task.id === taskObj.id){
@@ -113,7 +113,7 @@
                             }
                         })
                     }
-                })
+                }) */
             },
             // /**
             //  * Passes event up the chain
@@ -234,11 +234,11 @@
             },
         },
         created(){
-            this.storageLists.forEach(list=>{
+            /* this.storageLists.forEach(list=>{
                 if(list.id === this.thisList.id){
                     this.listData = list
                 }
-            })
+            }) */
         }
     }
 </script>

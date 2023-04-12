@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="main-wrapper">
+        <div class="main-wrapper" v-show="allTaskListsKeys.length">
             <slide-y-up-transition group class="lists-container">
                 <div v-for="list in allTaskListsKeys" :key="list[0]">
                     <TaskList :thisList="list[1]" @deleteList="deleteListEvent"></TaskList>
@@ -66,15 +66,16 @@
             },                                                      //
             addList(listObj){                                       //
                 this.allTaskLists[listObj.id] = listObj             //
-                this.updateEntries()
-                this.addListToStorage(listObj)
+                this.updateEntries()                                //
+                this.addListToStorage(listObj)                      //
             },                                                      //
             // -------------------------------------------------- ////        
             
             // Delete list ------------------------------------------------------------------ ////
             deleteListEvent(listId){                                                            //
-                this.storageLists = this.storageLists.filter(element => element.id !== listId)  //
-                this.saveToStorage()                                                            //
+                delete this.allTaskLists[listId]                                                //
+                this.updateEntries()                                                            //
+                this.deleteListToStorage(listId)                                                //
             },                                                                                  //
             // ------------------------------------------------------------------------------ ////
 
@@ -84,6 +85,7 @@
         },
         created(){
             this.allTaskLists = this.loadLocalStorage()
+            this.updateEntries()
         }
     }
 </script>

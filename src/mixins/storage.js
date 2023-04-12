@@ -16,9 +16,14 @@ export default{
         saveToLocalStorage() {
             localStorage.setItem('ListOfTaskLists', JSON.stringify(this.storageLists))
         },
-        updateStorageLists(listObj){
+        addListToStorage(listObj){
             this.loadLocalStorage()
             this.storageLists[listObj.id] = listObj
+            this.saveToLocalStorage()
+        },
+        deleteListToStorage(listId){
+            this.loadLocalStorage()
+            delete this.storageLists[listId]
             this.saveToLocalStorage()
         }
     },
