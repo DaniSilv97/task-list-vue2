@@ -22,7 +22,7 @@
                             <Task :thisTask="task[1]" @deleteTask="deleteTask"></Task>
                         </Draggable>
                     </Container>
-                    <AddTask :thisList="thisList" @addNewTask="newTaskEvent"></AddTask>
+                    <AddTask :thisList="thisList" @newTask="newTaskEvent"></AddTask>
                 </div>
             </collapse-transition>
         </div>  
@@ -67,7 +67,7 @@
                 if(taskName){
                     this.createTaskObj(data)
                 } else{
-                    //this.$emit('showPopup')
+                    this.$emit('showTaskPopup')
                 }
             },
             createTaskObj(data){

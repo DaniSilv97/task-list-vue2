@@ -7,7 +7,7 @@
         <input  type="date" 
                 class="date remove-default input-text"
                 v-model="newTaskDate">
-        <button class="submit remove-default button" @click="addNewTask">Add</button>        
+        <button class="submit remove-default button" @click="newTask">Add</button>        
     </div>
 </template>
 
@@ -29,8 +29,9 @@
             /**
              * Emits event with an obj with id, name and date
              */
-            addNewTask(){
-                this.$emit('addNewTask', {  listId: this.thisList.id, 
+            newTask(){
+                console.log('1')
+                this.$emit('newTask', {  listId: this.thisList.id, 
                                             name: this.newTaskName, 
                                             date: this.newTaskDate
                                          })

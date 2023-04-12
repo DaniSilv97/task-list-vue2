@@ -16,7 +16,7 @@
         <div class="main-wrapper" v-show="allTaskListsEntries.length">
             <slide-y-up-transition group class="lists-container">
                 <div v-for="list in allTaskListsEntries" :key="list[0]">
-                    <TaskList :thisList="list[1]" @deleteList="deleteListEvent"></TaskList>
+                    <TaskList :thisList="list[1]" v-on="taskListEventHandler"></TaskList>
                 </div>
             </slide-y-up-transition>
         </div>
@@ -39,7 +39,11 @@
         data(){
             return{
                 allTaskLists: {},
-                allTaskListsEntries: []
+                allTaskListsEntries: [],
+                taskListEventHandler: {
+                    deleteList: this.deleteListEvent,
+                    showTaskPopup: this.showPopup
+                }
             }
         },
         methods:{
@@ -52,7 +56,7 @@
                 if(listName){                                       //
                     this.createListObj(newListName)                 //
                 } else{                                             //
-                    this.$emit('showPopup')                         //
+                    this.showPopup()                                //
                 }                                                   //
             },                                                      //
             createListObj(newListName){                             //
@@ -81,6 +85,10 @@
 
             updateEntries(){
                 this.allTaskListsEntries = Object.entries(this.allTaskLists)
+            },
+
+            showPopup(){
+                this.$emit('showPopup')
             }
         },
         created(){
