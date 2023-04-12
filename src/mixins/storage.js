@@ -41,7 +41,7 @@ export default{
             delete this.storageLists[taskObj.listId].tasks[taskObj.id]
             this.saveToLocalStorage()
         },
-        changeTaskNameToStorage(taskObj){
+        taskChangedToStorage(taskObj){
             this.loadLocalStorage()
             this.storageLists[taskObj.listId].tasks[taskObj.id] = taskObj
             this.saveToLocalStorage()

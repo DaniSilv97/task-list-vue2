@@ -39,7 +39,7 @@
                 this.saveChange()
             },
             saveChange(){
-                this.changeTaskNameToStorage(this.taskData)
+                this.taskChangedToStorage(this.taskData)
             },
             checkboxChanged(){},  
         },
