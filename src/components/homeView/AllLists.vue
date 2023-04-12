@@ -13,10 +13,10 @@
             </div>
         </div>
 
-        <div v-show="Object.keys(allTaskLists).length" class="main-wrapper">
+        <div class="main-wrapper">
             <slide-y-up-transition group class="lists-container">
-                <div v-for="list in allTaskLists" :key="list.id">
-                    <TaskList :thisList="list" @deleteList="deleteListEvent"></TaskList>
+                <div v-for="list in allTaskListsKeys" :key="list[0]">
+                    <TaskList :thisList="list[1]" @deleteList="deleteListEvent"></TaskList>
                 </div>
             </slide-y-up-transition>
         </div>
@@ -38,7 +38,8 @@
         name: 'allLists',
         data(){
             return{
-                allTaskLists: {}
+                allTaskLists: {},
+                allTaskListsKeys: []
             }
         },
         methods:{
@@ -64,7 +65,9 @@
                 this.addList(newList)                               //
             },                                                      //
             addList(listObj){                                       //
-                this.allTaskLists[listObj.id] = listObj
+                this.allTaskLists[listObj.id] = listObj             //
+                this.updateEntries()
+                this.addListToStorage(listObj)
             },                                                      //
             // -------------------------------------------------- ////        
             
@@ -72,12 +75,16 @@
             deleteListEvent(listId){                                                            //
                 this.storageLists = this.storageLists.filter(element => element.id !== listId)  //
                 this.saveToStorage()                                                            //
-            }                                                                                   //
+            },                                                                                  //
             // ------------------------------------------------------------------------------ ////
+
+            updateEntries(){
+                this.allTaskListsKeys = Object.entries(this.allTaskLists)
+            }
         },
-        computed:{
-        
-        },
+        created(){
+            this.allTaskLists = this.loadLocalStorage()
+        }
     }
 </script>
 

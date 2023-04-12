@@ -1,21 +1,25 @@
 export default{
     data(){
         return{
-            
+            storageLists: {}
         }
     },
     methods:{
-        loadStorage() {
+        loadLocalStorage() {
             if(JSON.parse(localStorage.getItem('ListOfTaskLists'))) {
-                const storageLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
-                return (storageLists)
+                this.storageLists = JSON.parse(localStorage.getItem('ListOfTaskLists'))
+                return (this.storageLists)
             } else {
-                const storageLists = {}
-                return (storageLists)
+                return (this.storageLists)
             }
         },
-        saveToStorage() {
+        saveToLocalStorage() {
             localStorage.setItem('ListOfTaskLists', JSON.stringify(this.storageLists))
         },
+        updateStorageLists(listObj){
+            this.loadLocalStorage()
+            this.storageLists[listObj.id] = listObj
+            this.saveToLocalStorage()
+        }
     },
 }

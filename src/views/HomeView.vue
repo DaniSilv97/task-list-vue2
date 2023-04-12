@@ -326,7 +326,6 @@
           task.isShown = true
         })
       }) */
-      this.allTaskLists = this.loadStorage()
     },
   }
 </script>
