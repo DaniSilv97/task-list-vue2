@@ -2,7 +2,7 @@
     <div  v-show="isShown">
         <div class="task radius-and-shadow">
             <div class="check-and-name">
-                <input type="checkbox" class="checkbox remove-default" @click="checkboxChanged" v-model="thisTask.done">
+                <input type="checkbox" class="checkbox remove-default" @click="checkboxChanged" v-model="taskData.done">
                 <input type="text" class="remove-default task-name" v-model="taskName" @change="taskNameChange">
             </div>
             <div class="button-holder actions radius-and-shadow">
@@ -38,10 +38,13 @@
                 this.taskData.name = this.taskName
                 this.saveChange()
             },
+            checkboxChanged(){
+                this.taskData.done = !this.taskData.done
+                this.saveChange()
+            },
             saveChange(){
                 this.taskChangedToStorage(this.taskData)
-            },
-            checkboxChanged(){},  
+            },  
         },
         computed:{
             /**
