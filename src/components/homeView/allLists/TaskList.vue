@@ -19,7 +19,7 @@
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
                         <Draggable v-for="task in allTasksEntries" :key="task[0]">
-                            <Task :thisTask="task[1]" v-on="taskEventHandlers"></Task>
+                            <Task :thisTask="task[1]" @deleteTask="deleteTask"></Task>
                         </Draggable>
                     </Container>
                     <AddTask :thisList="thisList" @addNewTask="newTaskEvent"></AddTask>
@@ -49,10 +49,6 @@
                 listData: {},
                 allTasksEntries: [],
                 showTasks: true,
-
-                taskEventHandlers: {
-                    deleteTask: this.deleteTask
-                },
 
                 //Drags
                 startListId:'', 
@@ -94,11 +90,12 @@
             //
 
             deleteTask(taskObj){
-
+                delete this.listData.tasks[taskObj.id]
+                this.updateEntries()
+                this.deleteTaskToStorage(taskObj)
             },
 
             updateEntries(){
-                console.log('update')
                 this.allTasksEntries = Object.entries(this.listData.tasks)
             },
 

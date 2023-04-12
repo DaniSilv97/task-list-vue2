@@ -30,7 +30,11 @@
             }
         },
         methods:{
-
+            deleteTask(){
+                this.$emit('deleteTask', this.thisTask)
+            },
+            checkboxChanged(){},
+            taskNameChange(){},
         },
         computed:{
             /**
