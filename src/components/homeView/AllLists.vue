@@ -13,9 +13,9 @@
             </div>
         </div>
 
-        <div class="main-wrapper" v-show="allTaskListsKeys.length">
+        <div class="main-wrapper" v-show="allTaskListsEntries.length">
             <slide-y-up-transition group class="lists-container">
-                <div v-for="list in allTaskListsKeys" :key="list[0]">
+                <div v-for="list in allTaskListsEntries" :key="list[0]">
                     <TaskList :thisList="list[1]" @deleteList="deleteListEvent"></TaskList>
                 </div>
             </slide-y-up-transition>
@@ -39,7 +39,7 @@
         data(){
             return{
                 allTaskLists: {},
-                allTaskListsKeys: []
+                allTaskListsEntries: []
             }
         },
         methods:{
@@ -60,7 +60,7 @@
                     id: this.todayAsId(),                           //
                     name: newListName,                              //
                     type: 'list',                                   //
-                    tasks: [],                                      //
+                    tasks: {},                                      //
                 }                                                   //
                 this.addList(newList)                               //
             },                                                      //
@@ -80,7 +80,7 @@
             // ------------------------------------------------------------------------------ ////
 
             updateEntries(){
-                this.allTaskListsKeys = Object.entries(this.allTaskLists)
+                this.allTaskListsEntries = Object.entries(this.allTaskLists)
             }
         },
         created(){

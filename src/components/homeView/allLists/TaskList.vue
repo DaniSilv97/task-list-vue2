@@ -18,8 +18,8 @@
                                 @drag-start="dragStart(thisList.index, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
-                        <Draggable v-for="task in listData.tasks" :key="task.id">
-                            <Task :thisTask="task" v-on="taskEventHandlers"></Task>
+                        <Draggable v-for="task in allTasksEntries" :key="task[0]">
+                            <Task :thisTask="task[1]" v-on="taskEventHandlers"></Task>
                         </Draggable>
                     </Container>
                     <AddTask :thisList="thisList" @addNewTask="newTaskEvent"></AddTask>
@@ -47,27 +47,18 @@
         data(){
             return{
                 listData: {},
-                // // Event handler for AddTask
-                // // Event handler for Task
-                // taskHandlers: {
-                //     deleteTask: this.deleteTask,
-                //     taskNameChange: this.taskNameChange,
-                //     checkboxChanged: this.checkboxChanged
-                // },
-                // // Event handler for Sorters
-                // sortersHandlers: {
-                //     showAll: this.showAll,
-                //     showDone: this.showDone,
-                //     showNotDone: this.showNotDone,
-                // },
+                allTasksEntries: [],
                 showTasks: true,
+
+                taskEventHandlers: {
+                    deleteTask: this.deleteTask
+                },
+
+                //Drags
                 startListId:'', 
                 startTaskIndex:'', 
                 endListId:'', 
                 endTaskIndex:'',
-                taskEventHandlers: {
-                    deleteTask: this.deleteTask
-                }
             }
         },
         methods:{
@@ -95,63 +86,22 @@
                 this.addTask(newTask)
             },
             addTask(taskObj){
-                /* this.storageLists.forEach(list => {
-                    if(list.id === taskObj.listId){
-                        list.tasks.push(taskObj)
-                    }
-                }) */
+                this.listData.tasks[taskObj.id] = taskObj
+                this.updateEntries()
+                /* this.addTaskToStorage(taskObj) */ 
             },
 
             //
 
             deleteTask(taskObj){
-                /* this.storageLists.forEach(list => {
-                    if(list.id === taskObj.listId){
-                        list.tasks.forEach(task=>{
-                            if(task.id === taskObj.id){
-                                list.tasks.splice(list.tasks.indexOf(task), 1)   
-                            }
-                        })
-                    }
-                }) */
+
             },
-            // /**
-            //  * Passes event up the chain
-            //  */
-            // addNewTask(eventData){
-            //     this.$emit('addNewTask', eventData)
-            // },
-            // /**
-            //  * Passes event up the chain with an obj with listId and taskID
-            //  * @param {*} dateString task Id
-            //  */
-            // deleteTask(eventTaskId){
-            //     this.$emit('deleteTask', {listId: this.thisList.id, taskId: eventTaskId})
-            // },
-            // /**
-            //  * Passes event up the chain with added list id in obj
-            //  * @param {*} eventData obj with listID, taskId and newName
-            //  */
-            // taskNameChange(eventData){
-            //     eventData.listId = this.thisList.id
-            //     this.$emit('taskNameChange', eventData)
-            // },
-            // /**
-            //  * Passes event up the chain with an obj that has listId and searchContent(param)
-            //  * @param {*} searchContent String value from search form
-            //  */
-            // searchTask(searchContent){
-            //     const newData = { listId: this.thisList.id, lookFor: searchContent }
-            //     this.$emit('searchTask', newData)
-            // },
-            // /**
-            //  * Passes event up the chain with an obj that has listId and taskId(param)
-            //  * @param {*} taskId Id from task that checkbox changed 
-            //  */
-            // checkboxChanged(taskId){
-            //    const newData = { listId: this.thisList.id, taskId: taskId }
-            //    this.$emit('checkboxChanged', newData)
-            // },
+
+            updateEntries(){
+                console.log('update')
+                this.allTasksEntries = Object.entries(this.listData.tasks)
+            },
+
             /**
              * If this is the source of the dragStart, call for event emition
              * @param {*} list thisList
@@ -204,24 +154,7 @@
                                     endTaskIndex :this.endTaskIndex}
                 this.$emit('endDrag',dragObj)
             },
-            // /**
-            //  * Passes event up the chain with id of this list
-            //  */
-            // showAll(){
-            //     this.$emit('showAll', (this.thisList.id))
-            // },
-            // /**
-            //  * Passes event up the chain with id of this list
-            //  */
-            // showDone(){
-            //     this.$emit('showDone', (this.thisList.id))
-            // },
-            // /**
-            //  * Passes event up the chain with id of this list
-            //  */
-            // showNotDone(){
-            //     this.$emit('showNotDone', (this.thisList.id))
-            // }
+
         },
         computed:{
             //computed name for show more or less button
@@ -234,11 +167,8 @@
             },
         },
         created(){
-            /* this.storageLists.forEach(list=>{
-                if(list.id === this.thisList.id){
-                    this.listData = list
-                }
-            }) */
+            this.listData = JSON.parse(JSON.stringify(this.thisList))
+            this.updateEntries()
         }
     }
 </script>
