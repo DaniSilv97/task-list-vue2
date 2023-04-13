@@ -3,7 +3,7 @@
         <div class="list-actions main-wrapper">
             <div class="button-holder radius-and-shadow first-action">
                 <div class="search-list-container radius-and-shadow">
-                    <SearchList :storageLists="allTaskLists"></SearchList>
+                    <SearchList :allTaskListsProp="allTaskLists" v-on:selectList="selectList"></SearchList>
                 </div>
             </div>
             <div class="button-holder radius-and-shadow second-action">
@@ -13,9 +13,9 @@
             </div>
         </div>
 
-        <div class="main-wrapper" v-show="allTaskListsEntries.length">
+        <div class="main-wrapper" v-show="searchList.length">
             <slide-y-up-transition group class="lists-container">
-                <div v-for="list in allTaskListsEntries" :key="list[0]">
+                <div v-for="list in searchList" :key="list[0]">
                     <TaskList :thisList="list[1]" v-on="taskListEventHandler"></TaskList>
                 </div>
             </slide-y-up-transition>
@@ -39,11 +39,15 @@
         data(){
             return{
                 allTaskLists: {},
-                allTaskListsEntries: [],
                 taskListEventHandler: {
                     deleteList: this.deleteListEvent,
                     showTaskPopup: this.showPopup
-                }
+                },
+                search: {
+                    state: false, 
+                    value: ''
+                },
+                reload: false
             }
         },
         methods:{
@@ -70,30 +74,47 @@
             },                                                      //
             addList(listObj){                                       //
                 this.allTaskLists[listObj.id] = listObj             //
-                this.updateEntries()                                //
                 this.saveListToStorage(listObj)                     //
+                this.updateEntries()                                //
             },                                                      //
             // -------------------------------------------------- ////        
             
             // Delete list -------------------------------------- ////
             deleteListEvent(listId){                                //
                 delete this.allTaskLists[listId]                    //
-                this.updateEntries()                                //
                 this.deleteListToStorage(listId)                    //
+                this.updateEntries()                                //
             },                                                      //
             // -------------------------------------------------- ////
 
             updateEntries(){
-                this.allTaskListsEntries = Object.entries(this.allTaskLists)
+                this.allTaskLists = this.loadLocalStorage()
             },
 
             showPopup(){
                 this.$emit('showPopup')
+            },
+            selectList(listId){
+                this.search.state = true
+                this.search.value = listId
+            },
+            searchedList(allLists){
+                const filtered = allLists.filter(element => element[1].id === this.search.value)
+                return filtered
+            }
+        },
+        computed:{
+            searchList: function(){
+                const allLists = Object.entries(this.allTaskLists)
+                if(this.search.state && this.search.value !== ''){
+                    return this.searchedList(allLists)
+                } else {
+                    return allLists
+                }
             }
         },
         created(){
             this.allTaskLists = this.loadLocalStorage()
-            this.updateEntries()
         }
     }
 </script>
