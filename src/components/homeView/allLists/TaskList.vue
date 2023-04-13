@@ -18,7 +18,7 @@
                                 @drag-start="dragStart(thisList.index, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
-                        <Draggable v-for="task in sortTasks" :key="task[0]">
+                        <Draggable v-for="task in filterTasks" :key="task[0]">
                             <Task :thisTask="task[1]" @deleteTask="deleteTask"></Task>
                         </Draggable>
                     </Container>
@@ -127,19 +127,19 @@
             showDoneTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'done'
-                this.sortDone()
+                this.filterDone()
             },
             showNotDoneTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'notDone'
-                this.sortNotDone()
+                this.filterNotDone()
             },
-            sortDone(){
+            filterDone(){
                 const tasksAsArray = Object.entries(this.listData.tasks)
                 const filtered = tasksAsArray.filter(element => element[1].done)
                 return (filtered)
             },
-            sortNotDone(){
+            filterNotDone(){
                 const tasksAsArray = Object.entries(this.listData.tasks)
                 const filtered = tasksAsArray.filter(element => !element[1].done)
                 return (filtered)
@@ -213,13 +213,13 @@
                 }
             },
 
-            sortTasks: function(){
+            filterTasks: function(){
                 if(this.whatToShow === 'all'){
                     return  Object.entries(this.listData.tasks)
                 } else if(this.whatToShow === 'done'){
-                    return  this.sortDone()
+                    return  this.filterDone()
                 } else if(this.whatToShow === 'notDone'){
-                    return  this.sortNotDone()
+                    return  this.filterNotDone()
                 }
             }
         },
