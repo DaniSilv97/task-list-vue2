@@ -24,6 +24,7 @@
              */
             searchTask(){
                 this.$emit('searchTask', this.searchTaskText)
+                this.searchTaskText = ''
             }
         },
         computed:{

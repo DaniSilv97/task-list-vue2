@@ -11,8 +11,8 @@
             <collapse-transition>
                 <div v-show="showTasks" class="tasks-container radius-and-shadow">
                     
-                    <SearchTask></SearchTask>
-                    <Sorters v-on="sortersEventHandler"></Sorters>
+                    <SearchTask @searchTask="searchTask"></SearchTask>
+                    <Sorters v-on="filtesEventHandler"></Sorters>
 
                     <Container  group-name="dragContainers" 
                                 @drag-start="dragStart(thisList.index, $event)" 
@@ -50,13 +50,16 @@
                 listName: '',
                 showTasks: true,
 
-                // Sorters -----
-                sortersEventHandler: {
+                // Filters -----
+                filtesEventHandler: {
                     showAll: this.showAllTasksEvent,
                     showDone: this.showDoneTasksEvent,
                     showNotDone: this.showNotDoneTasksEvent
                 },
                 whatToShow: 'all', // use: all || done || notDone
+
+                // Search
+                search: false,
 
                 // Drags -----
                 startListId:'', 
@@ -128,24 +131,34 @@
             showDoneTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'done'
-                this.filterDone()
             },
             showNotDoneTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'notDone'
-                this.filterNotDone()
             },
-            filterDone(){
-                const tasksAsArray = Object.entries(this.listData.tasks)
-                const filtered = tasksAsArray.filter(element => element[1].done)
+            filterDone(allTasks){
+                const filtered = allTasks.filter(element => element[1].done)
                 return (filtered)
             },
-            filterNotDone(){
-                const tasksAsArray = Object.entries(this.listData.tasks)
-                const filtered = tasksAsArray.filter(element => !element[1].done)
+            filterNotDone(allTasks){
+                const filtered = allTasks.filter(element => !element[1].done)
                 return (filtered)
             },
             //
+
+            // Search --------------------------------------
+            searchTask(text) {
+                if(!text) {
+                    this.$emit('showTaskPopup')
+                } else {
+                    this.search = text
+                }
+            },
+            filterBySearch(){
+                const allTasks = Object.entries(this.listData.tasks)
+                const filtered = allTasks.filter(element => element[1].name.includes(this.search))
+                return filtered
+            },
 
 
             // Drags --------------------------------------
@@ -215,12 +228,19 @@
             },
 
             filterTasks: function(){
+                let allTasks = Object.entries(this.listData.tasks)
+                if(this.search){
+                    allTasks = this.filterBySearch()
+                }
                 if(this.whatToShow === 'all'){
-                    return  Object.entries(this.listData.tasks)
+                    this.search = false
+                    return  allTasks
                 } else if(this.whatToShow === 'done'){
-                    return  this.filterDone()
+                    this.search = false
+                    return  this.filterDone(allTasks)
                 } else if(this.whatToShow === 'notDone'){
-                    return  this.filterNotDone()
+                    this.search = false
+                    return  this.filterNotDone(allTasks)
                 }
             }
         },
