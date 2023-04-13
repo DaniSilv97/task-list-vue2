@@ -48,7 +48,6 @@
             return{
                 listData: {},
                 listName: '',
-                allTasksEntries: [],
                 showTasks: true,
 
                 // Sorters -----
@@ -114,7 +113,9 @@
 
             // Update --------------------------------------
             updateEntries() {
-                this.allTasksEntries = Object.entries(this.listData.tasks)
+                const temp = this.whatToShow
+                this.whatToShow = ''
+                this.whatToShow = temp
             },
             //
             
