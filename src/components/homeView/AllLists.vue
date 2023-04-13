@@ -51,59 +51,93 @@
             }
         },
         methods:{
-            // Create List -------------------------------------- ////
-            newListEvent(newListName){                              //
-                this.checkListName(newListName)                     //
-            },                                                      //
-            checkListName(newListName){                             //
-                const listName = newListName.replaceAll(' ', '')    //
-                if(listName){                                       //
-                    this.createListObj(newListName)                 //
-                } else{                                             //
-                    this.showPopup()                                //
-                }                                                   //
-            },                                                      //
-            createListObj(newListName){                             //
-                const newList = {                                   //
-                    id: this.todayAsId(),                           //
-                    name: newListName,                              //
-                    type: 'list',                                   //
-                    tasks: {},                                      //
-                }                                                   //
-                this.addList(newList)                               //
-            },                                                      //
-            addList(listObj){                                       //
-                this.allTaskLists[listObj.id] = listObj             //
-                this.saveListToStorage(listObj)                     //
-                this.updateEntries()                                //
-            },                                                      //
-            // -------------------------------------------------- ////        
-            
-            // Delete list -------------------------------------- ////
-            deleteListEvent(listId){                                //
-                delete this.allTaskLists[listId]                    //
-                this.deleteListToStorage(listId)                    //
-                this.updateEntries()                                //
-            },                                                      //
-            // -------------------------------------------------- ////
+            // Create List -------------------------------------- 
+            /**
+             * Gets a name from event and calls for 'checkListName()'
+             * @param {StringOrNumber} newListName {String || Number}
+             */
+            newListEvent(newListName){                          
+                this.checkListName(newListName)                 
+            },          
+            /**
+             * Gets a name and if true, call for 'createListObj()' / If false, call for 'showPopup()'
+             * @param {StringOrNumber} newListName {String || Number}
+             */                                        
+            checkListName(newListName){                         
+                const listName = newListName.replaceAll(' ', '')
+                if(listName){                                   
+                    this.createListObj(newListName)             
+                } else{                                         
+                    this.showPopup()                            
+                }                                               
+            },
+            /**
+             * Create an object with default: id, type, tasks and a name = param, call for 'addList()'
+             * @param {StringOrNumber} newListName {String || Number}
+             */                                                 
+            createListObj(newListName){                         
+                const newList = {                               
+                    id: this.todayAsId(),                       
+                    name: newListName,                          
+                    type: 'list',                               
+                    tasks: {},                                  
+                }                                               
+                this.addList(newList)                           
+            },
+            /**
+             * Takes an object and adds it to allTaskLists, calls for 'saveListToStorage()'
+             * @param {Obj} listObj {Obj} id, name, type, tasks
+             */                                                           
+            addList(listObj){                                   
+                this.allTaskLists[listObj.id] = listObj         
+                this.saveListToStorage(listObj)                 
+                this.updateEntries()                            
+            },                                                  
+            //          
 
+            /**
+             * Gets and Id from event, deletes task 
+             * @param {Number} listId {Number}
+             */         
+            deleteListEvent(listId){                           
+                delete this.allTaskLists[listId]                
+                this.deleteListToStorage(listId)                
+                this.updateEntries()                            
+            },                                                  
+
+            /**
+             * Loads localstorage and update allTaskLists
+             */         
             updateEntries(){
                 this.allTaskLists = this.loadLocalStorage()
             },
 
+            /**
+             * Emit event 'showPopup'
+             */         
             showPopup(){
                 this.$emit('showPopup')
             },
+            /**
+             * Get id from event, changes search <-localDataObj
+             * @param {Number} listId {Number}
+             */         
             selectList(listId){
                 this.search.state = true
                 this.search.value = listId
             },
+            /**
+             * Gets and array of objects and returns based on search <-localDataObj
+             * @param { Array } allLists { Array }
+             * @return { Array } filtered { Array }
+             */         
             searchedList(allLists){
                 const filtered = allLists.filter(element => element[1].id === this.search.value)
                 return filtered
             }
         },
         computed:{
+            //List that is showing in DOM
             searchList: function(){
                 const allLists = Object.entries(this.allTaskLists)
                 if(this.search.state && this.search.value !== ''){
@@ -114,6 +148,7 @@
             }
         },
         created(){
+            // Load allTaskLists from storage
             this.allTaskLists = this.loadLocalStorage()
         }
     }

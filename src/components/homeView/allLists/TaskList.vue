@@ -70,9 +70,17 @@
         },
         methods:{
             // Create task --------------------------------------
+            /**
+             * Gets an object from event and calls for 'checkTaskName()'
+             * @param {Obj} data {Obj} listId, name, date
+             */
             newTaskEvent(data) {
                 this.checkTaskName(data)
             },
+            /**
+             * Gets an object and if object.name true, call for 'createTaskObj()' / If false, emit 'showTaskPopup'
+             * @param {Obj} data {Obj} listId, name, date
+             */    
             checkTaskName(data) {
                 const taskName = data.name.replaceAll(' ', '')
                 if(taskName){
@@ -81,6 +89,10 @@
                     this.$emit('showTaskPopup')
                 }
             },
+            /**
+             * Create an object with default id, type, done and name, date, listId from data, call for 'addTask()'
+             * @param {Obj} data {Obj} listId, name, date
+             */
             createTaskObj(data) {
                 const newTask = {
                     id: this.todayAsId(),
@@ -92,6 +104,10 @@
                 }
                 this.addTask(newTask)
             },
+            /**
+             * Takes an object and adds it to the list call for 'saveTaskToStorage()'
+             * @param { Obj } taskObj { Obj }
+             */
             addTask(taskObj) {
                 this.listData.tasks[taskObj.id] = taskObj
                 this.updateEntries()
@@ -100,6 +116,10 @@
             //
 
             // Delete Task --------------------------------------
+            /**
+             * Delete object based on param
+             * @param { Obj } taskObj { Obj }
+             */
             deleteTask(taskObj) {
                 delete this.listData.tasks[taskObj.id]
                 this.updateEntries()
@@ -108,6 +128,9 @@
             //
 
             // Change Task Name --------------------------------------
+            /**
+             * Change list name based on dataBound 'listName'
+             */
             changeName() {
                 this.listData.name = this.listName
                 this.saveListToStorage(this.listData)
@@ -115,6 +138,9 @@
             //
 
             // Update --------------------------------------
+            /**
+             * Reloads computed that is shown on Dom 
+             */
             updateEntries() {
                 const temp = this.whatToShow
                 this.whatToShow = ''
@@ -124,22 +150,41 @@
             
 
             // Sorters --------------------------------------
+            /**
+             * Changes 'whatToShow' to all based on event
+             */
             showAllTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'all'
             },
+/**
+             * Changes 'whatToShow' to donebased on event
+             */
             showDoneTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'done'
             },
+            /**
+             * Changes 'whatToShow' to notDone based on event
+             */
             showNotDoneTasksEvent() {
                 this.listData = this.loadListData(this.listData.id)
                 this.whatToShow = 'notDone'
             },
+            /**
+             * Filter array showing only task with done = true
+             * @param { Array } allTasks { Array }
+             * @return { Array } filtered { Array }
+             */
             filterDone(allTasks){
                 const filtered = allTasks.filter(element => element[1].done)
                 return (filtered)
             },
+            /**
+             * Filter array showing only task with done = false
+             * @param { Array } allTasks { Array }
+             * @return { Array } filtered { Array }
+             */
             filterNotDone(allTasks){
                 const filtered = allTasks.filter(element => !element[1].done)
                 return (filtered)
@@ -147,6 +192,10 @@
             //
 
             // Search --------------------------------------
+            /**
+             * Takes a value and changes search <-Data
+             * @param { StringOrNumber } text { String || Number }
+             */
             searchTask(text) {
                 if(!text) {
                     this.$emit('showTaskPopup')
@@ -154,6 +203,10 @@
                     this.search = text
                 }
             },
+            /**
+             * returns filtered version of all tasks, acording to search
+             * @return { Array } filtered { Array }
+             */
             filterBySearch(){
                 const allTasks = Object.entries(this.listData.tasks)
                 const filtered = allTasks.filter(element => element[1].name.includes(this.search))
@@ -227,6 +280,7 @@
                 }
             },
 
+            // Tasks that are being shown in DOM
             filterTasks: function(){
                 let allTasks = Object.entries(this.listData.tasks)
                 if(this.search){

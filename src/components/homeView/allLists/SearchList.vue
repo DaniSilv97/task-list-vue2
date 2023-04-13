@@ -1,7 +1,7 @@
 <template>
     <div class="search-list">
         <select class="list-search" v-model="selectedList">
-            <option value=null> Show all </option>
+            <option value=''> Show all </option>
             <template v-for="list in allTaskLists">
                 <option :value="list[1].id" :key="list[0]">{{ list[1].name }}</option>
             </template>
@@ -17,7 +17,7 @@
         name: 'SearchList',
         data(){
             return{
-                selectedList: null
+                selectedList: ''
             }
         },
         methods:{
