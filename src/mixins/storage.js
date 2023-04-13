@@ -30,6 +30,10 @@ export default{
             delete this.storageLists[listId]
             this.saveToLocalStorage()
         },
+        loadListData(listId){
+            this.loadLocalStorage()
+            return (this.storageLists[listId])
+        },
         //
 
         // Tasks --------------------------------------

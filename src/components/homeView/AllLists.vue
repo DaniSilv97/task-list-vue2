@@ -47,7 +47,7 @@
             }
         },
         methods:{
-            // Add new List ------------------------------------- ////
+            // Create List -------------------------------------- ////
             newListEvent(newListName){                              //
                 this.checkListName(newListName)                     //
             },                                                      //

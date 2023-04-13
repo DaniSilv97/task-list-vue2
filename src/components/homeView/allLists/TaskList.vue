@@ -12,13 +12,13 @@
                 <div v-show="showTasks" class="tasks-container radius-and-shadow">
                     
                     <SearchTask></SearchTask>
-                    <Sorters></Sorters>
+                    <Sorters v-on="sortersEventHandler"></Sorters>
 
                     <Container  group-name="dragContainers" 
                                 @drag-start="dragStart(thisList.index, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
-                        <Draggable v-for="task in allTasksEntries" :key="task[0]">
+                        <Draggable v-for="task in sortTasks" :key="task[0]">
                             <Task :thisTask="task[1]" @deleteTask="deleteTask"></Task>
                         </Draggable>
                     </Container>
@@ -51,7 +51,15 @@
                 allTasksEntries: [],
                 showTasks: true,
 
-                //Drags
+                // Sorters -----
+                sortersEventHandler: {
+                    showAll: this.showAllTasksEvent,
+                    showDone: this.showDoneTasksEvent,
+                    showNotDone: this.showNotDoneTasksEvent
+                },
+                whatToShow: 'all', // use: all || done || notDone
+
+                // Drags -----
                 startListId:'', 
                 startTaskIndex:'', 
                 endListId:'', 
@@ -59,11 +67,11 @@
             }
         },
         methods:{
-            //
-            newTaskEvent(data){
+            // Create task --------------------------------------
+            newTaskEvent(data) {
                 this.checkTaskName(data)
             },
-            checkTaskName(data){
+            checkTaskName(data) {
                 const taskName = data.name.replaceAll(' ', '')
                 if(taskName){
                     this.createTaskObj(data)
@@ -71,7 +79,7 @@
                     this.$emit('showTaskPopup')
                 }
             },
-            createTaskObj(data){
+            createTaskObj(data) {
                 const newTask = {
                     id: this.todayAsId(),
                     name: data.name,
@@ -82,29 +90,64 @@
                 }
                 this.addTask(newTask)
             },
-            addTask(taskObj){
+            addTask(taskObj) {
                 this.listData.tasks[taskObj.id] = taskObj
                 this.updateEntries()
                 this.saveTaskToStorage(taskObj)
             },
-
             //
 
-            deleteTask(taskObj){
+            // Delete Task --------------------------------------
+            deleteTask(taskObj) {
                 delete this.listData.tasks[taskObj.id]
                 this.updateEntries()
                 this.deleteTaskToStorage(taskObj)
             },
-            
-            changeName(){
+            //
+
+            // Change Task Name --------------------------------------
+            changeName() {
                 this.listData.name = this.listName
                 this.saveListToStorage(this.listData)
             },
+            //
 
-            updateEntries(){
+            // Update --------------------------------------
+            updateEntries() {
                 this.allTasksEntries = Object.entries(this.listData.tasks)
             },
+            //
+            
 
+            // Sorters --------------------------------------
+            showAllTasksEvent() {
+                this.listData = this.loadListData(this.listData.id)
+                this.whatToShow = 'all'
+            },
+            showDoneTasksEvent() {
+                this.listData = this.loadListData(this.listData.id)
+                this.whatToShow = 'done'
+                this.sortDone()
+            },
+            showNotDoneTasksEvent() {
+                this.listData = this.loadListData(this.listData.id)
+                this.whatToShow = 'notDone'
+                this.sortNotDone()
+            },
+            sortDone(){
+                const tasksAsArray = Object.entries(this.listData.tasks)
+                const filtered = tasksAsArray.filter(element => element[1].done)
+                return (filtered)
+            },
+            sortNotDone(){
+                const tasksAsArray = Object.entries(this.listData.tasks)
+                const filtered = tasksAsArray.filter(element => !element[1].done)
+                return (filtered)
+            },
+            //
+
+
+            // Drags --------------------------------------
             /**
              * If this is the source of the dragStart, call for event emition
              * @param {*} list thisList
@@ -157,6 +200,7 @@
                                     endTaskIndex :this.endTaskIndex}
                 this.$emit('endDrag',dragObj)
             },
+            //
 
         },
         computed:{
@@ -168,6 +212,16 @@
                     return('More...')
                 }
             },
+
+            sortTasks: function(){
+                if(this.whatToShow === 'all'){
+                    return  Object.entries(this.listData.tasks)
+                } else if(this.whatToShow === 'done'){
+                    return  this.sortDone()
+                } else if(this.whatToShow === 'notDone'){
+                    return  this.sortNotDone()
+                }
+            }
         },
         created(){
             this.listData = JSON.parse(JSON.stringify(this.thisList))
