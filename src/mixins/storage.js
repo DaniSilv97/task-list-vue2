@@ -48,5 +48,11 @@ export default{
             this.saveToLocalStorage()
         },
         //
+
+        // Drags
+        saveAllTaskListsToStorage(allListsObj){
+            this.storageLists = allListsObj
+            this.saveToLocalStorage()
+        }
     },
 }

@@ -47,7 +47,7 @@
                     state: false, 
                     value: ''
                 },
-                reload: false
+                reload: false,
             }
         },
         methods:{
@@ -134,7 +134,7 @@
             searchedList(allLists){
                 const filtered = allLists.filter(element => element[1].id === this.search.value)
                 return filtered
-            }
+            },
         },
         computed:{
             //List that is showing in DOM

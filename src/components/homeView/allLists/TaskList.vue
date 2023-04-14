@@ -12,10 +12,10 @@
                 <div v-show="showTasks" class="tasks-container radius-and-shadow">
                     
                     <SearchTask @searchTask="searchTask"></SearchTask>
-                    <Sorters v-on="filtesEventHandler"></Sorters>
+                    <Sorters v-on="filtersEventHandler"></Sorters>
 
                     <Container  group-name="dragContainers" 
-                                @drag-start="dragStart(thisList.index, $event)" 
+                                @drag-start="dragStart(listData, $event)" 
                                 @drop="dragEnd(thisList, $event)"
                                 :get-child-payload="getChildPayload">
                         <Draggable v-for="task in filterTasks" :key="task[0]">
@@ -38,9 +38,10 @@
     import Sorters from './taskList/Sorters.vue';
     import date from '../../../mixins/date'
     import storage from '../../../mixins/storage'
+    import draggs from '../../../mixins/draggs'
 
     export default {
-        mixins: [ date, storage ],
+        mixins: [ date, storage, draggs ],
         props: [ 'thisList' ],
         components: { Task, AddTask, SearchTask, Sorters, CollapseTransition, Container, Draggable }, 
         name: 'TaskList',
@@ -51,7 +52,7 @@
                 showTasks: true,
 
                 // Filters -----
-                filtesEventHandler: {
+                filtersEventHandler: {
                     showAll: this.showAllTasksEvent,
                     showDone: this.showDoneTasksEvent,
                     showNotDone: this.showNotDoneTasksEvent
@@ -215,59 +216,75 @@
 
 
             // Drags --------------------------------------
-            /**
-             * If this is the source of the dragStart, call for event emition
-             * @param {*} list thisList
-             * @param {*} eventData dragStart $event
-             */
+            resetDragValues(){
+                this.startListId = ''
+                this.startTaskIndex = ''
+                this.endListId = ''
+                this.endTaskIndex = ''
+            },
             dragStart(list, eventData){
+                this.resetDragValues()
                 const {payload, isSource} = eventData 
                 if(isSource){
                     this.startListId = list.id
                     this.startTaskIndex = payload.index
-                    this.emitStartDrag()
+                    this.saveStart(this.startListId, this.startTaskIndex)
                 }
             },
-            /**
-             * If this is the source of the dragEnd and task has changed place, 
-             * call for event emition
-             * @param {*} list thisList
-             * @param {*} eventData dragEnd $event
-             */
             dragEnd(list, eventData){
+                this.removeDraggedTask()
                 const {removedIndex, addedIndex} = eventData 
                 if(list.id === this.startListId && removedIndex === addedIndex){
                     return
                 } else if(addedIndex !== null){
                     this.endListId = list.id
                     this.endTaskIndex = eventData.addedIndex
-                    this.emitEndDrag()
+                    this.saveEnd(this.endListId, this.endTaskIndex)
+                    this.setDraggedTask()
                 }
             },
-            /**
-             * Generates the index of dragged task, for drag function
-             * @returns Index of dragged task
-             */
             getChildPayload(index){
                 return { index }
             },
-            /**
-             * Emit event with obg that has startListId and startTaskIndex
-             */
-            emitStartDrag(){
-                const dragObj = {   startListId: this.startListId, 
-                                    startTaskIndex :this.startTaskIndex}
-                this.$emit('startDrag',dragObj)
+            removeDraggedTask(){
+                const startInfo = this.loadDragStart()
+                if(startInfo.startListId === this.listData.id){
+                    const tempTaskObj = Object.values(this.listData.tasks)[startInfo.startTaskIndex]
+                    this.saveRemovedTask(tempTaskObj)
+                    delete this.listData.tasks[tempTaskObj.id]
+                    this.removeDragFromStorage(tempTaskObj)
+                    
+                }
+                this.updateEntries()
             },
-            /**
-             * Emit event with obg that has endListId and endTaskIndex
-             */
-            emitEndDrag(){
-                const dragObj = {   endListId: this.endListId, 
-                                    endTaskIndex :this.endTaskIndex}
-                this.$emit('endDrag',dragObj)
+            setDraggedTask(){
+                const endInfo = this.loadDragEnd()
+                if(endInfo.endListId === this.listData.id){
+                    const removedTask = this.loadRemovedTask()
+                    console.log(removedTask)
+                    removedTask.listId = endInfo.endListId
+                    const temp = [removedTask.id, removedTask]
+                    const tasks = Object.entries(this.listData.tasks)
+                    tasks.splice(endInfo.endTaskIndex, 0, temp)
+                    this.tasksArrayToObj(tasks)
+                    console.log('5');
+                }
+            },
+            tasksArrayToObj(tasks){
+                const tempObj = {}
+                tasks.forEach(task => {
+                    tempObj[task[0]] = task[1]
+                })
+                this.updateDragToData(tempObj)
+            },
+            updateDragToData(tasksObj){
+                this.listData.tasks = tasksObj
+                this.saveListToStorage(this.listData)
+                this.cleanLocalStorage()
+                this.updateEntries()
             },
             //
+            
 
         },
         computed:{
